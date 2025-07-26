@@ -1,14 +1,22 @@
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useState } from "react";
 
 const Table = ({ rows, columns, title }) => {
+    const rowHeight = 52;      // altura por fila
+    const headerHeight = 56;   // altura del encabezado
+    const [pageSize, setPageSize] = useState(5); // valor inicial
+
     return (
         <Box m="20px">
             <h1>{title}</h1>
             <Box
                 m="40px 0 0 0"
-                height="75vh"
                 sx={{
+                    height: rowHeight * pageSize + headerHeight,
+                    minHeight: 450,
+                    maxHeight: 836,
+                    transition: "height 0.3s ease",
                     "& .MuiDataGrid-root": {
                         border: "none",
                     },
@@ -41,9 +49,12 @@ const Table = ({ rows, columns, title }) => {
                     rows={rows}
                     columns={columns}
                     components={{ Toolbar: GridToolbar }}
+                    pageSize={pageSize}
+                    onPageSizeChange={(newSize) => setPageSize(newSize)}
+                    rowsPerPageOptions={[5, 10, 25, 50]}
                 />
             </Box>
-        </Box >
+        </Box>
     );
 };
 

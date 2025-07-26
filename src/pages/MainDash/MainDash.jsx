@@ -1,16 +1,15 @@
 import './MainDash.css';
-import Cards from '../Cards/Cards.jsx';
-import Table from '../Table/Table.jsx';
-import RightSide from '../RightSide/RightSide.jsx';
-import { columnsPedidos } from '../../Data/Data.jsx';
-import { usePedidos } from '../../hooks/usePedidos.js';
+import Cards from '../../components/Cards/Cards.jsx';
+import Table from '../../components/Table/Table.jsx';
+import { columnsPedidos } from '../../Data/DataPedidos.jsx';
+import { usePedidosRol } from '../../hooks/usePedidosRol.js';
 
 const MainDash = () => {
-    const { rows, loading, error } = usePedidos();
+    const { rows, loading, error } = usePedidosRol();
 
     const ultimosPedidos = [...rows]
-        .sort((a, b) => b.id_pedido - a.id_pedido) // orden descendente
-        .slice(0, 5); // tomar los primeros 5
+        .sort((a, b) => b.id_pedido - a.id_pedido)
+        .slice(0, 5);
 
     return (
         <div className="MainDash">

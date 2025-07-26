@@ -1,29 +1,25 @@
-.RightSide {
+.Clientes {
   display: flex;
   flex-direction: column;
-  /* padding-top: 1rem; */
-  width: 95%;
   justify-content: space-evenly;
+  overflow: scroll;
+  margin-top: 30px;
 }
-.RightSide h3 {
+
+.Clientes h1 {
   color: #052462;
+  overflow: auto;
 }
 
 @media screen and (max-width: 1200px) {
-  .RightSide {
+  .Clientes {
     justify-content: flex-start;
-    margin-top: 3rem;
+    margin-top: 1rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .RightSide {
-    width: 100%;
-    margin-top: 0;
-  }
-  .RightSide > div {
-    display: flex;
-    flex-direction: column;
+  .Clientes {
     align-items: center;
   }
 }

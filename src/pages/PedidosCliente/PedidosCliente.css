@@ -1,29 +1,25 @@
-.RightSide {
+.pedidosCliente {
   display: flex;
   flex-direction: column;
-  /* padding-top: 1rem; */
-  width: 95%;
   justify-content: space-evenly;
+  overflow: scroll;
+  margin-top: 30px;
 }
-.RightSide h3 {
+
+.pedidosCliente h1 {
   color: #052462;
+  overflow: auto;
 }
 
 @media screen and (max-width: 1200px) {
-  .RightSide {
+  .pedidosCliente {
     justify-content: flex-start;
-    margin-top: 3rem;
+    margin-top: 1rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .RightSide {
-    width: 100%;
-    margin-top: 0;
-  }
-  .RightSide > div {
-    display: flex;
-    flex-direction: column;
+  .pedidosCliente {
     align-items: center;
   }
 }

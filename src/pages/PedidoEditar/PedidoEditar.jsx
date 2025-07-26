@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { obtenerPedidoPorId, actualizarPedidoPorId } from "../../Services/pedidosApi.js";
-import Form from "../Form/Form";
+import Form from "../../components/Form/Form.jsx";
 import * as yup from "yup";
 import { CircularProgress, Box, MenuItem } from "@mui/material";
-import { FieldsData } from "../../Data/Data.jsx";
-import CustomTextField from "../CustomTextField/CustomTextField.jsx";
-import Header from "../Header/Header.jsx";
+import { FieldsData } from "../../Data/DataPedidos.jsx";
+import CustomTextField from "../../components/CustomTextField/CustomTextField.jsx";
+import Header from "../../components/Header/Header.jsx";
+import "./PedidoEditar.css";
 import Swal from "sweetalert2";
 
 // Generar valores iniciales desde los campos
@@ -44,7 +45,7 @@ const PedidoEditar = () => {
         const fetchPedido = async () => {
             try {
                 const data = await obtenerPedidoPorId(id);
-                setPedido(data[0]); // ✅ corregido: acceder al primer elemento del array
+                setPedido(data[0]);
             } catch (error) {
                 console.error("Error al obtener pedido:", error);
             } finally {
@@ -61,7 +62,7 @@ const PedidoEditar = () => {
                 throw new Error("ID del pedido no está presente.");
             }
 
-            // 🧼 Sanear: convertir "" en null antes de enviar
+            //convertir "" en null antes de enviar
             const datosLimpios = {};
             Object.entries(values).forEach(([key, value]) => {
                 datosLimpios[key] = value === "" ? null : value;
@@ -123,32 +124,35 @@ const PedidoEditar = () => {
     const validationSchema = generarValidationSchema();
 
     return (
-        <Box m="20px">
-            <Header title="Editar Pedido" subtitle={`Editando Pedido: ${pedido.id_pedido}`} />
-            <Form
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-                btnText="Actualizar Pedido"
-                extraFields={({ values, errors, touched, handleChange, handleBlur }) => (
-                    <CustomTextField
-                        name="estado"
-                        label="Estado"
-                        select
-                        value={values.estado}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        error={!!touched.estado && !!errors.estado}
-                        helperText={touched.estado && errors.estado}
-                        sx={{ gridColumn: "span 2" }}
-                    >
-                        <MenuItem value="EN PUERTO">En Puerto</MenuItem>
-                        <MenuItem value="ENTREGADO">Entregado</MenuItem>
-                        <MenuItem value="EN PROCESO">En Proceso</MenuItem>
-                    </CustomTextField>
-                )}
-            />
-        </Box>
+        <div className="pedidosEditar">
+            <Box m="20px">
+                <Header title="Editar Pedido" subtitle={`Editando Pedido: ${pedido.id_pedido}`} />
+                <Form
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={handleSubmit}
+                    btnText="Actualizar Pedido"
+                    FieldsData={FieldsData}
+                    extraFields={({ values, errors, touched, handleChange, handleBlur }) => (
+                        <CustomTextField
+                            name="estado"
+                            label="Estado"
+                            select
+                            value={values.estado}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={!!touched.estado && !!errors.estado}
+                            helperText={touched.estado && errors.estado}
+                            sx={{ gridColumn: "span 2" }}
+                        >
+                            <MenuItem value="EN PUERTO">En Puerto</MenuItem>
+                            <MenuItem value="ENTREGADO">Entregado</MenuItem>
+                            <MenuItem value="EN PROCESO">En Proceso</MenuItem>
+                        </CustomTextField>
+                    )}
+                />
+            </Box>
+        </div>
     );
 };
 

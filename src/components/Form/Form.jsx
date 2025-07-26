@@ -3,9 +3,9 @@ import { Formik } from "formik";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import * as yup from "yup";
 import CustomTextField from "../CustomTextField/CustomTextField.jsx";
-import { FieldsData } from "../../Data/Data.jsx";
 
-const Form = ({ onSubmit, initialValues, validationSchema, extraFields, btnText }) => {
+
+const Form = ({ onSubmit, initialValues, validationSchema, extraFields, btnText, FieldsData }) => {
     const isNonMobile = useMediaQuery("(min-width:600px)");
 
     return (
@@ -32,6 +32,14 @@ const Form = ({ onSubmit, initialValues, validationSchema, extraFields, btnText 
                         }}
                         overflow="auto"
                     >
+                        {/* Campos extra inyectados desde el padre */}
+                        {extraFields?.({
+                            values,
+                            errors,
+                            touched,
+                            handleChange,
+                            handleBlur,
+                        })}
                         {FieldsData.map((campo) => (
                             <CustomTextField
                                 key={campo.name}
@@ -46,15 +54,6 @@ const Form = ({ onSubmit, initialValues, validationSchema, extraFields, btnText 
                                 sx={{ gridColumn: campo.gridColumn || "span 4" }}
                             />
                         ))}
-
-                        {/* Campos extra inyectados desde el padre */}
-                        {extraFields?.({
-                            values,
-                            errors,
-                            touched,
-                            handleChange,
-                            handleBlur,
-                        })}
                     </Box>
 
                     <Box mt="20px" display="flex" justifyContent="end">

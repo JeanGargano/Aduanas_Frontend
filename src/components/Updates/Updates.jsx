@@ -7,14 +7,17 @@ const Updates = () => {
             {UpdatesData.map((update) => {
                 return (
                     <div className="update" key={update.name}>
-                        <h4>{update.name}</h4>
-                        <p>{update.noti}</p>
-                        <span>{update.time}</span>
+                        <div className="noti">
+                            <div style={{ marginBottom: '0.5rem' }}>
+                                <span>{update.name}</span>
+                                <span> {update.noti}</span>
+                            </div>
+                            <span>{update.time}</span>
+                        </div>
                     </div>
                 );
             })}
         </div>
-
     )
 }
 

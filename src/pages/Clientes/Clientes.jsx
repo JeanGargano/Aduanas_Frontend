@@ -1,32 +1,35 @@
-import Table from '../Table/Table.jsx';
-import Header from '../Header/Header.jsx';
-import { useNavigate } from 'react-router-dom';
+import Table from "../../components/Table/Table.jsx";
+import Header from "../../components/Header/Header.jsx";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
 import { UilFilePlus } from '@iconscout/react-unicons';
-import { columnsPedidos } from '../../Data/Data.jsx';
-import { usePedidos } from '../../hooks/usePedidos.js';
+import { useUsuarios } from "../../hooks/useUsuarios.js";
+import { columnsUsuarios } from "../../Data/DataClientes.jsx";
 import Swal from "sweetalert2";
+import './Clientes.css';
 
-const Pedidos = () => {
+
+
+const Clientes = () => {
     const navigate = useNavigate();
     const isMobile = useMediaQuery("(max-width:600px)");
 
-    const { rows, loading, error } = usePedidos();
+    const { usuarios, loading, error } = useUsuarios();
 
-    // if (loading) return <p>Cargando pedidos...</p>;
-    if (error) return <p>Error al cargar pedidos</p>;
+    if (loading) return <p>Cargando usuarios...</p>;
+    if (error) return <p>Error al cargar usuarios</p>;
 
-    const limpiarCachePedidos = () => {
-        localStorage.removeItem("pedidos");
-        localStorage.removeItem("pedidos_cache_time");
+    const limpiarCacheUsuarios = () => {
+        localStorage.removeItem("usuarios");
+        localStorage.removeItem("usuarios_cache_time");
     };
 
-    const handleEditarPedido = async () => {
-        const { value: pedidoId } = await Swal.fire({
-            title: "Editar Pedido",
+    const handleEditarUsuario = async () => {
+        const { value: usuarioId } = await Swal.fire({
+            title: "Editar Usuario",
             input: "text",
-            inputLabel: "ID del Pedido",
-            inputPlaceholder: "Ingrese el ID del pedido a editar",
+            inputLabel: "ID del Usuario",
+            inputPlaceholder: "Ingrese el ID del usuario a editar",
             showCancelButton: true,
             confirmButtonColor: "#E7423E",
             cancelButtonColor: "#6E81A4",
@@ -48,20 +51,20 @@ const Pedidos = () => {
             },
         });
 
-        if (pedidoId) {
-            navigate(`/pedidos/editar/${pedidoId}`);
+        if (usuarioId) {
+            navigate(`/usuarios/editar/${usuarioId}`);
         }
     };
 
-
     return (
-        <div className="Pedidos">
+        <div className="Clientes">
             <Backdrop
                 sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={loading}
             >
                 <CircularProgress color="inherit" />
             </Backdrop>
+
             <Box m={2} p={isMobile ? 2 : 6}>
                 <Box
                     display="flex"
@@ -70,10 +73,10 @@ const Pedidos = () => {
                     alignItems={isMobile ? "flex-start" : "center"}
                     gap={2}
                 >
-                    <Header title="Pedidos" subtitle="Gestión y seguimiento de pedidos" />
+                    <Header title="Usuarios" subtitle="Gestión de usuarios registrados" />
 
                     <Button
-                        onClick={() => navigate("/pedidos/crear")}
+                        onClick={() => navigate("/clientes/crear")}
                         sx={{
                             backgroundColor: "#E7423E",
                             color: "white",
@@ -89,11 +92,11 @@ const Pedidos = () => {
                     >
                         <Box display="flex" justifyContent="end" alignItems="center" gap={1}>
                             <UilFilePlus size={isMobile ? "32" : "40"} />
-                            Crear Pedido
+                            Crear Usuario
                         </Box>
                     </Button>
                     <Button
-                        onClick={handleEditarPedido}
+                        onClick={handleEditarUsuario}
                         sx={{
                             backgroundColor: "#E7423E",
                             color: "white",
@@ -109,14 +112,14 @@ const Pedidos = () => {
                     >
                         <Box display="flex" justifyContent="end" alignItems="center" gap={1}>
                             <UilFilePlus size={isMobile ? "32" : "40"} />
-                            Editar Pedido
+                            Editar Usuario
                         </Box>
                     </Button>
                 </Box>
 
                 <Box mt="10px">
                     <Button
-                        onClick={() => { limpiarCachePedidos(); window.location.reload(); }}
+                        onClick={() => { limpiarCacheUsuarios(); window.location.reload(); }}
                         sx={{
                             backgroundColor: "#E7423E",
                             color: "white",
@@ -132,9 +135,10 @@ const Pedidos = () => {
                     >
                         Refrescar Tabla
                     </Button>
+
                     <Table
-                        rows={rows}
-                        columns={columnsPedidos}
+                        rows={usuarios}
+                        columns={columnsUsuarios}
                         loading={loading}
                     />
                 </Box>
@@ -142,5 +146,4 @@ const Pedidos = () => {
         </div>
     );
 };
-
-export default Pedidos;
+export default Clientes

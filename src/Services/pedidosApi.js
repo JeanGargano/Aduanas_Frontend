@@ -110,3 +110,28 @@ export const listarPedidosDelCliente = async (idCliente) => {
     throw error;
   }
 };
+
+export const actualizarEstadoPedido = async (idPedido, nuevoEstado) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/pedido/actualizar_estado?id_pedido=${idPedido}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ estado: nuevoEstado }),
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error("Error al actualizar el estado del pedido");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error en actualizar Estado Pedido:", error);
+    throw error;
+  }
+};

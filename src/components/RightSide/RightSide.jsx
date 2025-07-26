@@ -1,5 +1,7 @@
 import "./RightSide.css";
 import Updates from "../Updates/Updates";
+import Clientes from "../../pages/Clientes/Clientes";
+import CustomerReview from "../CustomerReview/CustomerReview";
 
 
 const RightSide = () => {
@@ -9,11 +11,10 @@ const RightSide = () => {
                 <h3>Últimas actualizaciones</h3>
                 <Updates />
             </div>
-            {/* <div>
+            <div>
                 <h3>Clientes</h3>
-                <Clientes />
-            </div> */}
-
+                <CustomerReview />
+            </div>
         </div>
     )
 }
