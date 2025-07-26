@@ -45,10 +45,9 @@ const PedidoNuevo = () => {
 
     const handleFormSubmit = async (values, actions) => {
         try {
-            console.log("Valores del formulario:", values);
             const resultado = await crearPedido(values);
-            // await crearCarpetasDrive(values.cliente, values.numero_contrato);
-            console.log("Pedido creado:", resultado);
+            await crearCarpetasDrive(values.numero_contrato, values.id_cliente);
+
             actions.resetForm();
 
             Swal.fire({
@@ -118,7 +117,7 @@ const PedidoNuevo = () => {
                                 sx={{ gridColumn: "span 2" }}
                             >
                                 {clientes.map((cliente) => (
-                                    <MenuItem key={cliente.id_cliente} value={cliente.id_cliente}>
+                                    <MenuItem key={cliente.identificacion} value={cliente.identificacion}>
                                         {cliente.nombre}
                                     </MenuItem>
                                 ))}
