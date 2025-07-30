@@ -1,8 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from 'react';
 import Logo from '../../assets/logo.png';
 import { SidebarData } from '../../Data/Data';
 import { UilSignOutAlt } from '@iconscout/react-unicons';
 import { useAuth } from "../../Context/AuthContext";
+import { UilBars } from "@iconscout/react-unicons";
+import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 
 import './Sidebar.css';
@@ -10,11 +13,20 @@ import './Sidebar.css';
 const Sidebar = () => {
     const navigate = useNavigate();
     const { usuario, cerrarSesion } = useAuth();
-
     const location = useLocation();
 
-    const rolUsuario = usuario?.rol || "";
+    const [expanded, setExpanded] = useState(true);
 
+    const sidebarVariants = {
+        true: {
+            left: '0'
+        },
+        false: {
+            left: '-60%'
+        }
+    }
+
+    const rolUsuario = usuario?.rol || "";
     // Determinar cuál está activo basado en la ruta actual
     const activeIndex = SidebarData.findIndex(item => item.link === location.pathname);
 
@@ -48,32 +60,44 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="Sidebar">
-            {/* logo */}
-            <div className="logo">
-                <img src={Logo} alt="" />
-                <span>
-                    Tit<span></span>ulo
-                </span>
+        <>
+            <div className="bars" style={expanded ? { left: '60%' } : { left: '5%' }} onClick={() => setExpanded(!expanded)}>
+                <UilBars />
             </div>
 
-            {/* Menu Items*/}
-            <div className="menu">
-                {SidebarData.filter(item => item.roles.includes(rolUsuario)).map((item, index) => (
-                    <div
-                        className={activeIndex === index ? 'menuItem active' : 'menuItem'}
-                        key={index}
-                        onClick={() => handleNavigation(item.link)}
-                    >
-                        <item.icon />
-                        <span>{item.heading}</span>
-                    </div>
-                ))}
-                <div className="menuItem" onClick={handleLogout}>
-                    <UilSignOutAlt />
+            <motion.div className="Sidebar"
+                variants={sidebarVariants}
+                animate={window.innerWidth <= 768 ? `${expanded}` : ''}
+            >
+                {/* logo */}
+                <div className="logo">
+                    <img src={Logo} alt="" />
+                    <span>
+                        Tit<span></span>ulo
+                    </span>
                 </div>
-            </div>
-        </div>
+
+                {/* Menu Items*/}
+                <div className="menu">
+                    {SidebarData.filter(item => item.roles.includes(rolUsuario)).map((item, index) => {
+                        const isActive = activeIndex === index;
+                        return (
+                            <div
+                                key={index}
+                                className={`menuItem ${isActive ? `active ${rolUsuario}` : ''}`}
+                                onClick={() => handleNavigation(item.link)}
+                            >
+                                <item.icon />
+                                <span>{item.heading}</span>
+                            </div>
+                        );
+                    })}
+                    <div className="menuItem" onClick={handleLogout}>
+                        <UilSignOutAlt />
+                    </div>
+                </div>
+            </motion.div>
+        </>
     );
 };
 

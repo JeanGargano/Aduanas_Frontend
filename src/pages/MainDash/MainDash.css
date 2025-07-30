@@ -21,5 +21,7 @@
 @media screen and (max-width: 768px) {
   .MainDash {
     align-items: center;
+    overflow: hidden;
+    height: 125vh;
   }
 }

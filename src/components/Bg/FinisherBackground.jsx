@@ -10,41 +10,35 @@ const FinisherBackground = () => {
         script.onload = () => {
             if (window.FinisherHeader) {
                 new window.FinisherHeader({
-                    "count": 100,
+                    "count": 5,
                     "size": {
-                        "min": 30,
-                        "max": 40,
+                        "min": 900,
+                        "max": 1500,
                         "pulse": 0
                     },
                     "speed": {
                         "x": {
                             "min": 0,
-                            "max": 0.4
+                            "max": 0.3
                         },
                         "y": {
                             "min": 0,
-                            "max": 0.1
+                            "max": 0
                         }
                     },
                     "colors": {
                         "background": "#052462",
                         "particles": [
-                            "#E7423E",
-                            "#E7423E",
-                            "#E7423E",
-                            "#E7423E",
                             "#E7423E"
                         ]
                     },
-                    "blending": "screen",
+                    "blending": "lighten",
                     "opacity": {
-                        "center": 0.5,
-                        "edge": 1
+                        "center": 0.15,
+                        "edge": 0.4
                     },
                     "skew": 0,
                     "shapes": [
-                        "c",
-                        "t",
                         "s"
                     ]
                 });
