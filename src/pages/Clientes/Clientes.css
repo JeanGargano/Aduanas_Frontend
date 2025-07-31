@@ -9,6 +9,29 @@
   color: #052462;
 }
 
+.swal2-montserrat {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.swal2-rounded {
+  border-radius: 12px !important;
+  padding: 1.5em;
+}
+
+.swal2-confirm-custom {
+  background-color: #e7423e !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+}
+
+.swal2-cancel-custom {
+  background-color: #e0e6f0 !important;
+  color: #374151 !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+}
+
 @media screen and (max-width: 1200px) {
   .Clientes {
     justify-content: center;

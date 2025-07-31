@@ -31,12 +31,21 @@ const PedidosCliente = () => {
       inputLabel: "ID del Pedido",
       inputPlaceholder: "Ingrese el ID del pedido a editar",
       showCancelButton: true,
-      confirmButtonColor: "#E7423E",
-      cancelButtonColor: "#6E81A4",
       confirmButtonText: "Continuar",
       cancelButtonText: "Cancelar",
+      confirmButtonColor: "#E7423E",
+      cancelButtonColor: "#6E81A4",
       background: "#fff",
+      icon: "info",
       iconColor: "#E7423E",
+      customClass: {
+        popup: "swal2-montserrat swal2-rounded",
+        confirmButton: "swal2-confirm-custom",
+        cancelButton: "swal2-cancel-custom",
+      },
+      inputAttributes: {
+        autocapitalize: "off",
+      },
       inputValidator: (value) => {
         if (!value) return "Debe ingresar un ID";
       },

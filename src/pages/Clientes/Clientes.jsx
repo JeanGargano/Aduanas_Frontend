@@ -31,18 +31,20 @@ const Clientes = () => {
             inputLabel: "ID del Usuario",
             inputPlaceholder: "Ingrese el ID del usuario a editar",
             showCancelButton: true,
-            confirmButtonColor: "#E7423E",
-            cancelButtonColor: "#6E81A4",
             confirmButtonText: "Continuar",
             cancelButtonText: "Cancelar",
+            confirmButtonColor: "#E7423E",
+            cancelButtonColor: "#6E81A4",
             background: "#fff",
+            icon: "info",
             iconColor: "#E7423E",
             inputAttributes: {
                 autocapitalize: "off",
             },
             customClass: {
-                popup: "swal2-rounded",
+                popup: "swal2-montserrat swal2-rounded",
                 confirmButton: "swal2-confirm-custom",
+                cancelButton: "swal2-cancel-custom",
             },
             inputValidator: (value) => {
                 if (!value) {
@@ -55,6 +57,7 @@ const Clientes = () => {
             navigate(`/usuarios/editar/${usuarioId}`);
         }
     };
+
 
     return (
         <div className="Clientes">

@@ -1,0 +1,15 @@
+.swal2-montserrat {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.swal2-rounded {
+  border-radius: 12px !important;
+  padding: 1.5em;
+}
+
+.swal2-confirm-custom {
+  background-color: #052462 !important;
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+}

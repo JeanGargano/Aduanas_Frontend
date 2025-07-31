@@ -36,16 +36,24 @@ const Pedidos = () => {
                 title: `Notificar a ${cliente[0].nombre}`,
                 icon: "warning",
                 html: `
-                <p><strong>Nombre:</strong> ${cliente[0].nombre}</p>
-                <p><strong>Teléfono:</strong> ${cliente[0].celular}</p>
-                <p><strong>Correo:</strong> ${cliente[0].correo}</p>
-                <p>¿Deseas notificar por WhatsApp?</p>
+                <div class="swal2-content-group">
+                    <p><strong>Nombre:</strong> ${cliente[0].nombre}</p>
+                    <p><strong>Teléfono:</strong> ${cliente[0].celular}</p>
+                    <p><strong>Correo:</strong> ${cliente[0].correo}</p>
+                    <p style="margin-top: 1em;">¿Deseas notificar por <strong>WhatsApp</strong>?</p>
+                </div>
             `,
+                background: "#fff",
                 showCancelButton: true,
-                confirmButtonColor: "#E7423E",
-                cancelButtonColor: "#6E81A4",
                 confirmButtonText: "Enviar Notificación",
                 cancelButtonText: "Cancelar",
+                confirmButtonColor: "#E7423E",
+                cancelButtonColor: "#6E81A4",
+                customClass: {
+                    popup: "swal2-montserrat swal2-rounded",
+                    confirmButton: "swal2-confirm-custom",
+                    cancelButton: "swal2-cancel-custom",
+                },
             });
 
             if (result.isConfirmed) {
@@ -58,7 +66,7 @@ const Pedidos = () => {
                     confirmButtonColor: "#E7423E",
                     background: "#fff",
                     customClass: {
-                        popup: "swal2-rounded",
+                        popup: "swal2-montserrat swal2-rounded",
                         confirmButton: "swal2-confirm-custom",
                     },
                 });
@@ -70,6 +78,11 @@ const Pedidos = () => {
                 text: "No se pudo obtener la información del usuario.",
                 icon: "error",
                 confirmButtonColor: "#E7423E",
+                background: "#fff",
+                customClass: {
+                    popup: "swal2-montserrat swal2-rounded",
+                    confirmButton: "swal2-confirm-custom",
+                },
             });
         }
     };
@@ -86,13 +99,15 @@ const Pedidos = () => {
             confirmButtonText: "Continuar",
             cancelButtonText: "Cancelar",
             background: "#fff",
+            icon: "info",
             iconColor: "#E7423E",
             inputAttributes: {
                 autocapitalize: "off",
             },
             customClass: {
-                popup: "swal2-rounded",
+                popup: "swal2-montserrat swal2-rounded",
                 confirmButton: "swal2-confirm-custom",
+                cancelButton: "swal2-cancel-custom",
             },
             inputValidator: (value) => {
                 if (!value) {

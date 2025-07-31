@@ -40,13 +40,14 @@ const ClienteNuevo = () => {
                 icon: "error",
                 background: "#fff",
                 iconColor: "#E7423E",
-                confirmButtonColor: "#052462",
                 confirmButtonText: "Cerrar",
+                confirmButtonColor: "#052462",
                 customClass: {
-                    popup: "swal2-rounded",
+                    popup: "swal2-montserrat swal2-rounded",
                     confirmButton: "swal2-confirm-custom",
                 },
             });
+
         }
     };
 

@@ -1,6 +1,3 @@
-/* src/pages/Auth.css */
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
-
 .login {
   margin: 0;
   padding: 0;
@@ -219,6 +216,33 @@
 
 .toggle-left-color {
   background: linear-gradient(to right, #e7423e, #e7423e); /* Rojo anaranjado */
+}
+
+.swal2-modern-popup {
+  border-radius: 12px;
+  padding: 2em 2em 1.5em;
+  font-family: "Montserrat", sans-serif;
+}
+
+.swal2-custom-input-container input {
+  margin: 0.5em 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+.swal2-confirm-modern {
+  background-color: #2563eb !important; /* Azul */
+  color: white !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+  font-family: "Montserrat", sans-serif;
+}
+
+.swal2-cancel-modern {
+  background-color: #e5e7eb !important; /* Gris claro */
+  color: #374151 !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+  font-family: "Montserrat", sans-serif;
 }
 
 @media (max-width: 800px) {

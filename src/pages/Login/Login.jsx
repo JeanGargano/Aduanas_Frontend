@@ -18,23 +18,33 @@ export default function Auth() {
 
         const { value: formValues } = await Swal.fire({
             title: "Asignar Contraseña",
-            html:
-                `<input type="password" id="swal-pass" class="swal2-input" placeholder="Contraseña">` +
-                `<input type="password" id="swal-pass-confirm" class="swal2-input" placeholder="Confirmar Contraseña">`,
-            focusConfirm: false,
+            icon: "question",
+            html: `
+            <div class="swal2-custom-input-container">
+                <input type="password" id="swal-pass" class="swal2-input" placeholder="Nueva contraseña">
+                <input type="password" id="swal-pass-confirm" class="swal2-input" placeholder="Confirmar contraseña">
+            </div>
+        `,
             showCancelButton: true,
             confirmButtonText: "Asignar",
+            cancelButtonText: "Cancelar",
+            focusConfirm: false,
+            customClass: {
+                popup: "swal2-modern-popup",
+                confirmButton: "swal2-confirm-modern",
+                cancelButton: "swal2-cancel-modern",
+            },
             preConfirm: () => {
-                const pass = document.getElementById("swal-pass").value;
-                const confirm = document.getElementById("swal-pass-confirm").value;
+                const pass = document.getElementById("swal-pass").value.trim();
+                const confirm = document.getElementById("swal-pass-confirm").value.trim();
 
                 if (!pass || !confirm) {
-                    Swal.showValidationMessage("Ambos campos son obligatorios");
+                    Swal.showValidationMessage("⚠️ Ambos campos son obligatorios.");
                     return false;
                 }
 
                 if (pass !== confirm) {
-                    Swal.showValidationMessage("Las contraseñas no coinciden");
+                    Swal.showValidationMessage("❌ Las contraseñas no coinciden.");
                     return false;
                 }
 
@@ -48,10 +58,20 @@ export default function Auth() {
                     identificacion,
                     contraseña: formValues.pass,
                 });
-                Swal.fire("Éxito", res.message || "Contraseña asignada", "success");
-                setActive(false); // vuelve a login
+                Swal.fire({
+                    icon: "success",
+                    title: "Contraseña asignada",
+                    text: res.message || "La contraseña se asignó correctamente.",
+                    timer: 2500,
+                    showConfirmButton: false,
+                });
+                setActive(false);
             } catch (error) {
-                Swal.fire("Error", error.message || "No se pudo asignar", "error");
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: error.message || "No se pudo asignar la contraseña.",
+                });
             }
         }
     };

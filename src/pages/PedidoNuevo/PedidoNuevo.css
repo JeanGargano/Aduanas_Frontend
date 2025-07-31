@@ -11,6 +11,22 @@
   overflow: auto;
 }
 
+.swal2-montserrat {
+  font-family: "Montserrat", sans-serif !important;
+}
+
+.swal2-rounded {
+  border-radius: 12px !important;
+  padding: 1.5em;
+}
+
+.swal2-confirm-custom {
+  background-color: #052462 !important; /* o el color que desees */
+  color: #fff !important;
+  border-radius: 6px !important;
+  padding: 8px 18px !important;
+}
+
 @media screen and (max-width: 1200px) {
   .pedidosNuevo {
     justify-content: flex-start;
