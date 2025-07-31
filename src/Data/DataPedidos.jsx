@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const gridColumnsSmall = "span";
+const gridColumnsSmall = 24;
 
 export const FieldsData = [
+    {
+        name: "id_cliente",
+        label: "ID Cliente",
+        gridColumn: gridColumnsSmall,
+    },
     {
         name: "numero_contrato",
         label: "Número Contrato",
@@ -157,7 +162,7 @@ export const FieldsData = [
 // This is used to display the pedidos in a table format
 const columStyle = {
     flex: "auto",
-    width: 125,
+    width: 150,
 };
 
 

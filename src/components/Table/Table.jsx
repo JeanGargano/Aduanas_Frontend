@@ -16,6 +16,7 @@ const Table = ({ rows, columns, title }) => {
                     height: rowHeight * pageSize + headerHeight,
                     minHeight: 450,
                     maxHeight: 836,
+                    width: "100%",
                     transition: "height 0.3s ease",
                     "& .MuiDataGrid-root": {
                         border: "none",

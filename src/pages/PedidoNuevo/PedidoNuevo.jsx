@@ -11,7 +11,8 @@ import Swal from "sweetalert2";
 import "./PedidoNuevo.css";
 import { crearPedido } from "../../Services/pedidosApi.js";
 import { crearCarpetasDrive } from "../../Services/driveApi.js";
-import { listarUsuarios } from "../../Services/usuariosApi.js";
+import { listarUsuarios, obtenerUsuarioPorId } from "../../Services/usuariosApi.js";
+import { crearNotificacion, obtenerFechaLocal } from "../../Services/notificacionesApi.js";
 
 
 const PedidoNuevo = () => {
@@ -46,7 +47,16 @@ const PedidoNuevo = () => {
     const handleFormSubmit = async (values, actions) => {
         try {
             const resultado = await crearPedido(values);
-            await crearCarpetasDrive(values.numero_contrato, values.id_cliente);
+            // await crearCarpetasDrive(values.numero_contrato, values.id_cliente);
+            const usuario = await obtenerUsuarioPorId(values.id_cliente);
+
+            const nuevaNotificacion = {
+                usuario_id: values.id_cliente,
+                pedido_id: resultado,
+                mensaje: `Señor/a ${usuario[0].nombre} el estado de su pedido ${values.numero_contrato} ha sido actualizado a ${values.estado}.`,
+                fecha: obtenerFechaLocal()
+            };
+            await crearNotificacion(nuevaNotificacion);
 
             actions.resetForm();
 

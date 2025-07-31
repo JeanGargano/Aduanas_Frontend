@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const columStyle = {
-    flex: "auto",
+    flex: 1,
     width: 125,
 };
 // Columns for the usuarios table

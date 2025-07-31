@@ -1,5 +1,5 @@
 import "./RightSide.css";
-import Updates from "../Updates/Updates";
+import Updates from "../../pages/Updates/Updates";
 import Clientes from "../../pages/Clientes/Clientes";
 import CustomerReview from "../CustomerReview/CustomerReview";
 

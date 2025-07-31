@@ -7,6 +7,8 @@ import { CircularProgress, Box, MenuItem } from "@mui/material";
 import { FieldsData } from "../../Data/DataPedidos.jsx";
 import CustomTextField from "../../components/CustomTextField/CustomTextField.jsx";
 import Header from "../../components/Header/Header.jsx";
+import { crearNotificacion, obtenerFechaLocal } from "../../Services/notificacionesApi.js";
+import { obtenerUsuarioPorId } from "../../Services/usuariosApi.js";
 import "./PedidoEditar.css";
 import Swal from "sweetalert2";
 
@@ -69,6 +71,17 @@ const PedidoEditar = () => {
             });
 
             const resultado = await actualizarPedidoPorId(id, datosLimpios);
+
+            const usuario = await obtenerUsuarioPorId(datosLimpios.id_cliente);
+
+            const nuevaNotificacion = {
+                usuario_id: datosLimpios.id_cliente,
+                pedido_id: id,
+                mensaje: `Señor/a ${usuario[0].nombre} el estado de su pedido ${datosLimpios.numero_contrato} ha sido actualizado a ${datosLimpios.estado}.`,
+                fecha: obtenerFechaLocal()
+            };
+
+            await crearNotificacion(nuevaNotificacion);
 
             Swal.fire({
                 title: "Pedido actualizado",

@@ -136,11 +136,13 @@ const Clientes = () => {
                         Refrescar Tabla
                     </Button>
 
-                    <Table
-                        rows={usuarios}
-                        columns={columnsUsuarios}
-                        loading={loading}
-                    />
+                    <div className="table">
+                        <Table
+                            rows={usuarios}
+                            columns={columnsUsuarios}
+                            loading={loading}
+                        />
+                    </div>
                 </Box>
             </Box>
         </div>
