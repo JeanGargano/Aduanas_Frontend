@@ -3,12 +3,16 @@ import { usePedidos } from "./usePedidos";
 import { usePClientes } from "./usePClientes";
 
 export const usePedidosRol = () => {
-  const { usuario } = useAuth();
+  const { usuario, isAdmin } = useAuth();
 
-  const hookData =
-    usuario?.rol === "Cliente"
-      ? usePClientes(usuario?.identificacion)
-      : usePedidos();
+  const esAdmin = isAdmin();
 
-  return hookData;
+  const pedidosData = usePedidos(esAdmin);
+  const clientesData = usePClientes(
+    usuario?.identificacion,
+    usuario?.rol,
+    !esAdmin,
+  );
+
+  return esAdmin ? pedidosData : clientesData;
 };

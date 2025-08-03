@@ -5,12 +5,14 @@ const CACHE_KEY = "pedidos";
 const CACHE_TIME_KEY = "pedidos_cache_time";
 const CACHE_DURATION = 10 * 60 * 1000; // 10 minutos
 
-export const usePedidos = () => {
+export const usePedidos = (enable = true) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!enable) return;
+
     const cargarPedidos = async () => {
       const cache = localStorage.getItem(CACHE_KEY);
       const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
@@ -40,7 +42,7 @@ export const usePedidos = () => {
     };
 
     cargarPedidos();
-  }, []);
+  }, [enable]);
 
   return { rows, loading, error };
 };

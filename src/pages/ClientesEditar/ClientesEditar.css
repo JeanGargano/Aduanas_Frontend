@@ -1,0 +1,24 @@
+.clientesEditar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: scroll;
+}
+
+.clientesEditar h1 {
+  color: #052462;
+  overflow: auto;
+}
+
+@media screen and (max-width: 1200px) {
+  .clientesEditar {
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .clientesEditar {
+    align-items: center;
+  }
+}

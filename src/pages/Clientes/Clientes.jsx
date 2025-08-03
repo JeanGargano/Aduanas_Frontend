@@ -54,7 +54,7 @@ const Clientes = () => {
         });
 
         if (usuarioId) {
-            navigate(`/usuarios/editar/${usuarioId}`);
+            navigate(`/clientes/editar/${usuarioId}`);
         }
     };
 

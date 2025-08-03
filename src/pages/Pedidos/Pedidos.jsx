@@ -24,10 +24,14 @@ const Pedidos = () => {
     if (error) return <p>Error al cargar pedidos</p>;
 
     const limpiarCachePedidos = () => {
-        localStorage.removeItem("pedidos");
-        localStorage.removeItem("pedidos_cache_time");
-    };
-
+        if (usuario?.rol === 'Administrador') {
+            localStorage.removeItem("pedidos");
+            localStorage.removeItem("pedidos_cache_time");
+        } else {
+            localStorage.removeItem("usuario_pedidos");
+            localStorage.removeItem("usuario_pedidos_cache_time");
+        }
+    }
     const mostrarPopupNotificacion = async (rows) => {
         try {
             const cliente = await obtenerUsuarioPorId(rows.id_cliente);

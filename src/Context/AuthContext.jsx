@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
     const estaAutenticado = () => !!usuario;
 
-    const isAdmin = () => usuario && usuario.role === 'Administrador';
+    const isAdmin = () => usuario && usuario.rol === 'Administrador';
 
     return (
         <AuthContext.Provider value={{ usuario, iniciarSesion, cerrarSesion, estaAutenticado, isAdmin, loading }}>

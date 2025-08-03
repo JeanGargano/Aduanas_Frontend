@@ -12,6 +12,7 @@ import PedidoEditar from './pages/PedidoEditar/PedidoEditar.jsx';
 import PedidosCliente from './pages/PedidosCliente/PedidosCliente.jsx';
 import Clientes from "./pages/Clientes/Clientes.jsx";
 import ClienteNuevo from "./pages/ClienteNuevo/ClienteNuevo.jsx";
+import ClientesEditar from "./pages/ClientesEditar/ClientesEditar.jsx";
 import './App.css';
 
 
@@ -20,7 +21,8 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const dynamicRoutePrefixes = [
     "/pedidos/editar/",
-    "/pedidos/cliente/"
+    "/pedidos/cliente/",
+    "/clientes/editar/"
   ];
   const noColumnsRoutes = ["/pedidos", "/pedidos/crear", "/analytics", "/clientes", "/clientes/crear"];
   const isNoColumnsView =
@@ -98,6 +100,11 @@ function App() {
             <Route path="/clientes/crear" element={
               <Layout>
                 <ClienteNuevo />
+              </Layout>
+            } />
+            <Route path="/clientes/editar/:id" element={
+              <Layout>
+                <ClientesEditar />
               </Layout>
             } />
           </Route>

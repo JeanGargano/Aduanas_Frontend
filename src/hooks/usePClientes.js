@@ -5,19 +5,25 @@ const CACHE_KEY = "usuario_pedidos";
 const CACHE_TIME_KEY = "usuario_pedidos_cache_time";
 const CACHE_DURATION = 10 * 60 * 1000;
 
-export const usePClientes = (id, rol) => {
+export const usePClientes = (id, rol, enable = true) => {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !enable) return;
 
     const cargarPedidos = async () => {
       setLoading(true);
 
-      // Si es cliente, intentamos usar el caché
-      if (rol === "cliente") {
+      // Si es Cliente, intentamos usar el caché
+      if (rol === "Cliente") {
+        console.log(
+          "Cargando pedidos desde caché o API..., id:",
+          id,
+          "rol:",
+          rol,
+        );
         const cache = localStorage.getItem(CACHE_KEY);
         const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
         const now = Date.now();
@@ -40,7 +46,7 @@ export const usePClientes = (id, rol) => {
         setRows(pedidosConId);
 
         // Guardar en caché solo si es cliente
-        if (rol === "cliente") {
+        if (rol === "Cliente") {
           localStorage.setItem(CACHE_KEY, JSON.stringify(pedidosConId));
           localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
         }
@@ -53,7 +59,7 @@ export const usePClientes = (id, rol) => {
     };
 
     cargarPedidos();
-  }, [id, rol]);
+  }, [id, rol, enable]);
 
   return { rows, loading, error };
 };

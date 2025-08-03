@@ -236,7 +236,18 @@ export const columnsPedidos = [
     { field: "sticker", headerName: "Sticker", ...columStyle },
     { field: "dec_valor", headerName: "DEC Valor", ...columStyle },
     { field: "proveedor", headerName: "Proveedor", ...columStyle },
-    { field: "numero_contrato", headerName: "Número Contrato", ...columStyle },
+    {
+        field: "numero_contrato", headerName: "Número Contrato", renderCell: (params) => (
+            <Link
+                to={`https://drive.google.com/drive/u/0/folders/1KkHNZXXJpwcvkwJg0SiHFHjn3a7WRM2p`}
+                style={{ color: "#E7423E", textDecoration: "none", fontWeight: "bold" }}
+            >
+                {params.value}
+            </Link>
+        ),
+        ...columStyle
+    },
+
     { field: "producto", headerName: "Producto", ...columStyle },
     { field: "numero_factura", headerName: "Número Factura", ...columStyle },
     { field: "fecha_factura", headerName: "Fecha Factura", ...columStyle },
