@@ -13,6 +13,7 @@ import PedidosCliente from './pages/PedidosCliente/PedidosCliente.jsx';
 import Clientes from "./pages/Clientes/Clientes.jsx";
 import ClienteNuevo from "./pages/ClienteNuevo/ClienteNuevo.jsx";
 import ClientesEditar from "./pages/ClientesEditar/ClientesEditar.jsx";
+import Analytics from "./pages/Analytics/Analytics.jsx";
 import './App.css';
 
 
@@ -24,12 +25,13 @@ const Layout = ({ children }) => {
     "/pedidos/cliente/",
     "/clientes/editar/"
   ];
+
   const noColumnsRoutes = ["/pedidos", "/pedidos/crear", "/analytics", "/clientes", "/clientes/crear"];
   const isNoColumnsView =
     noColumnsRoutes.includes(location.pathname) ||
     dynamicRoutePrefixes.some((prefix) => location.pathname.startsWith(prefix));
 
-  const noHiddenOverflowRoutes = ["/pedidos/crear", "/dashboard", "/pedidos", "/clientes",];
+  const noHiddenOverflowRoutes = ["/pedidos/crear", "/dashboard", "/pedidos", "/clientes", "/analytics"];
   const isNoHiddenOverflow =
     noHiddenOverflowRoutes.includes(location.pathname) ||
     dynamicRoutePrefixes.some((prefix) => location.pathname.startsWith(prefix));
@@ -105,6 +107,11 @@ function App() {
             <Route path="/clientes/editar/:id" element={
               <Layout>
                 <ClientesEditar />
+              </Layout>
+            } />
+            <Route path="/analytics" element={
+              <Layout>
+                <Analytics />
               </Layout>
             } />
           </Route>
