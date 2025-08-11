@@ -158,6 +158,7 @@ export const FieldsData = [
     },
 ];
 
+
 // Columns for the DataGrid in Pedidos component
 // This is used to display the pedidos in a table format
 const columStyle = {
@@ -203,12 +204,22 @@ export const columnsPedidos = [
         field: "fecha_arribo",
         headerName: "Fecha de Arribo",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     {
         field: "fecha_entrega_transporte",
         headerName: "Fecha de Entrega Transporte",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     {
@@ -231,6 +242,11 @@ export const columnsPedidos = [
         field: "fecha_aceptacion",
         headerName: "Fecha Aceptación",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     { field: "sticker", headerName: "Sticker", ...columStyle },
@@ -267,6 +283,11 @@ export const columnsPedidos = [
         field: "fecha_vencimiento",
         headerName: "Fecha Vencimiento",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     { field: "radicado_invima", headerName: "Radicado Invima", ...columStyle },
@@ -282,6 +303,11 @@ export const columnsPedidos = [
         field: "fecha_radicado_invima",
         headerName: "Fecha Radicado Invima",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     {
@@ -301,6 +327,11 @@ export const columnsPedidos = [
         field: "fecha_certificado_invima",
         headerName: "Fecha Certificado Invima",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     {
@@ -308,7 +339,13 @@ export const columnsPedidos = [
         headerName: "Registro de Importación",
         ...columStyle,
     },
-    { field: "fecha", headerName: "Fecha", type: "date", ...columStyle },
+    {
+        field: "fecha", headerName: "Fecha", type: "date", valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        }, ...columStyle
+    },
     { field: "bl", headerName: "BL", ...columStyle },
     { field: "naviera", headerName: "Naviera", ...columStyle },
     { field: "moto_nave", headerName: "Moto Nave", ...columStyle },
@@ -336,6 +373,11 @@ export const columnsPedidos = [
         field: "fecha_llegada",
         headerName: "Fecha Llegada",
         type: "date",
+        valueGetter: (params) => {
+            if (!params?.value) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params.value);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
         ...columStyle,
     },
     {
