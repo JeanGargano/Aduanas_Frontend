@@ -1,0 +1,60 @@
+.ItemContainer1 {
+  display: flex;
+  flex: 1;
+  height: 10rem !important;
+  border-radius: 10px;
+  background-color: var(--cards);
+  padding: 1rem;
+  position: relative;
+  cursor: pointer;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.ItemContainer1:hover {
+  box-shadow: none;
+}
+
+.Content {
+  text-align: start;
+  margin-left: 10px;
+  margin-top: 29px;
+}
+
+.taskProgress {
+  margin-top: 30px;
+  color: rgb(76, 77, 78);
+  font-weight: 600;
+}
+
+.taskCounter {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: -16px;
+}
+
+.currentMonth1 {
+  margin-top: -23px;
+  color: rgb(76, 77, 78);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.BarChartContainer {
+  margin-left: 45px;
+  margin-top: 40px;
+}
+
+@media screen and (max-width: 768px) {
+  .ItemContainer1 {
+    width: 80%;
+  }
+  .BarChartContainer {
+    margin-left: 0;
+    margin-top: 40px;
+  }
+  .Content {
+    text-align: left;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+}

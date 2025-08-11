@@ -1,0 +1,73 @@
+.analytics {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  overflow: scroll;
+  margin-top: 60px;
+}
+
+.ChartItems {
+  width: 95%;
+  display: flex;
+  gap: 10px;
+  margin-left: 2rem;
+}
+
+.ChartText {
+  font-size: 30px;
+  font-weight: 700;
+  color: #052462;
+  text-align: center;
+}
+
+.MiddleTaskChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--cards);
+  margin: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.DobleCard {
+  display: grid;
+  grid-template-columns: 49% 50%; /* dos columnas iguales */
+  gap: 10px; /* espacio entre columnas */
+  margin: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: var(--cards);
+  border-radius: 10px;
+}
+
+.ClientesBarChart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--cards);
+  margin: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@media screen and (max-width: 768px) {
+  .ChartItems {
+    width: 90%;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width: 1240px) {
+  .ChartItems {
+    width: 90%;
+    flex-direction: column;
+  }
+}
