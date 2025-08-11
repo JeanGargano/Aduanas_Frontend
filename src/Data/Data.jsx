@@ -32,16 +32,10 @@ export const SidebarData = [
     roles: ["Administrador"],
   },
   {
-    icon: UilPackage,
-    heading: "Nuevo Pedido",
-    link: "/pedidos/crear",
-    roles: ["Administrador"],
-  },
-  {
     icon: UilChart,
     heading: "Analytics",
     link: "/analytics",
-    roles: ["Administrador", "Cliente"],
+    roles: ["Administrador"],
   },
 ];
 
@@ -50,7 +44,7 @@ export const cardsData = [
     title: "Pedidos",
     color: {
       backGround: "linear-gradient(180deg, #E7423E 0%, 	#E7423E 100%)",
-      boxShadow: "0px 10px 20px 0px #e0c6f5",
+      boxShadow: "0px 10px 20px 0px #E7423E",
     },
     barValue: 99,
     value: "120",
@@ -65,8 +59,8 @@ export const cardsData = [
   {
     title: "Entregados",
     color: {
-      backGround: "linear-gradient(180deg, #535ac8 0%, #535ac8 100%)",
-      boxShadow: "0px 10px 20px 0px #FDC0C7",
+      backGround: "linear-gradient(180deg,#6E81A4 0%, #6E81A4 100%)",
+      boxShadow: "0px 10px 20px 0px #6E81A4",
     },
     barValue: 40,
     value: "40",
@@ -81,8 +75,8 @@ export const cardsData = [
   {
     title: "Procesos Activos",
     color: {
-      backGround: "linear-gradient(180deg,#6E81A4 0%, #6E81A4 100%)",
-      boxShadow: "0px 10px 20px 0px #F9D59B",
+      backGround: "linear-gradient(180deg, #052462 0%, #052462 100%)",
+      boxShadow: "0px 10px 20px 0px #052462",
     },
     barValue: 60,
     value: "80",
