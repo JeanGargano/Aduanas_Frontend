@@ -3,6 +3,7 @@ import Cards from '../../components/Cards/Cards.jsx';
 import Table from '../../components/Table/Table.jsx';
 import { columnsPedidos } from '../../Data/DataPedidos.jsx';
 import { usePedidosRol } from '../../hooks/usePedidosRol.js';
+import { Box, Button, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
 
 const MainDash = () => {
     const { rows, loading, error } = usePedidosRol();
@@ -17,7 +18,13 @@ const MainDash = () => {
             <Cards />
 
             {loading ? (
-                <p>Cargando pedidos...</p>
+                <Backdrop
+                    sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+
             ) : error ? (
                 <p>Error al cargar pedidos</p>
             ) : (
