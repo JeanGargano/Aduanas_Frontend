@@ -2,7 +2,7 @@ import { Typography, Box } from "@mui/material";
 
 const Header = ({ title, subtitle }) => {
     return (
-        <Box mt="30px" mb={4}>
+        <Box mt="30px" mb={4} ml={4}>
             <Typography
                 variant="h3"
                 color="#052462"
@@ -23,7 +23,7 @@ const Header = ({ title, subtitle }) => {
                 fontWeight="bold"
                 sx={{
                     textAlign: {
-                        xs: "left",
+                        xs: "center",
                         sm: "left"
                     }
                 }}
