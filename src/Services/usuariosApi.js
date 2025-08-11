@@ -29,12 +29,12 @@ export const crearCliente = async (datos) => {
 
 export const logearUsuario = async (credenciales) => {
   try {
-    const respuesta = await fetch(`${API_URL}/logear_usuario`, {
+    const respuesta = await fetch(`${API_URL}/autenticar_usuario`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: JSON.stringify(credenciales),
+      body: new URLSearchParams(credenciales).toString(),
     });
 
     if (!respuesta.ok) {
