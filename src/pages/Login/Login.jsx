@@ -8,8 +8,8 @@ import Swal from "sweetalert2";
 export default function Auth() {
     const navigate = useNavigate();
     const [active, setActive] = useState(false);
-    const [contraseña, setContraseña] = useState("");
-    const [identificacion, setIdentificacion] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
 
     const { iniciarSesion } = useAuth();
 
@@ -17,12 +17,12 @@ export default function Auth() {
         e.preventDefault();
 
         const { value: formValues } = await Swal.fire({
-            title: "Asignar Contraseña",
+            title: "Asignar password",
             icon: "question",
             html: `
             <div class="swal2-custom-input-container">
-                <input type="password" id="swal-pass" class="swal2-input" placeholder="Nueva contraseña">
-                <input type="password" id="swal-pass-confirm" class="swal2-input" placeholder="Confirmar contraseña">
+                <input type="password" id="swal-pass" class="swal2-input" placeholder="Nueva password">
+                <input type="password" id="swal-pass-confirm" class="swal2-input" placeholder="Confirmar password">
             </div>
         `,
             showCancelButton: true,
@@ -44,7 +44,7 @@ export default function Auth() {
                 }
 
                 if (pass !== confirm) {
-                    Swal.showValidationMessage("❌ Las contraseñas no coinciden.");
+                    Swal.showValidationMessage("❌ Las passwords no coinciden.");
                     return false;
                 }
 
@@ -55,13 +55,13 @@ export default function Auth() {
         if (formValues) {
             try {
                 const res = await asignarContrasena({
-                    identificacion,
-                    contraseña: formValues.pass,
+                    username,
+                    password: formValues.pass,
                 });
                 Swal.fire({
                     icon: "success",
-                    title: "Contraseña asignada",
-                    text: res.message || "La contraseña se asignó correctamente.",
+                    title: "password asignada",
+                    text: res.message || "La password se asignó correctamente.",
                     timer: 2500,
                     showConfirmButton: false,
                 });
@@ -70,7 +70,7 @@ export default function Auth() {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: error.message || "No se pudo asignar la contraseña.",
+                    text: error.message || "No se pudo asignar la password.",
                 });
             }
         }
@@ -80,7 +80,7 @@ export default function Auth() {
         e.preventDefault();
 
         try {
-            logearUsuario({ identificacion, contraseña })
+            logearUsuario({ username, password })
                 .then((datos) => {
                     console.log("Login successful:", datos);
                     iniciarSesion(datos);
@@ -88,11 +88,19 @@ export default function Auth() {
                 })
                 .catch((error) => {
                     console.error("Login failed:", error.message);
-                    alert("Error al iniciar sesión: " + error.message);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: error.message || "No se pudo iniciar sesión.",
+                    });
                 });
         } catch (error) {
             console.error("Error in handleLogin:", error.message);
-            alert("Error al iniciar sesión: " + error.message);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al iniciar sesión: " + error.message,
+            });
         }
     };
 
@@ -106,8 +114,9 @@ export default function Auth() {
                         <span>Utiliza tu numero de identificación para registrarte</span>
                         <input
                             type="number"
-                            value={identificacion}
-                            onChange={(e) => setIdentificacion(e.target.value)}
+                            value={username}
+                            className="noSpinner"
+                            onChange={(e) => setUsername(e.target.value)}
                             placeholder="Identificación"
                         />
                         <button className={`toggleBtn ${active ? "btn-right" : "btn-left"}`} type="submit">Registrar Cuenta</button>
@@ -118,20 +127,21 @@ export default function Auth() {
                 <div className="form-container sign-in">
                     <form onSubmit={handleLogin}>
                         <h1>Iniciar Sesión</h1>
-                        <span>Utiliza tu número de identificación y Contraseña</span>
+                        <span>Utiliza tu número de identificación y password</span>
                         <input
                             type="number"
-                            value={identificacion}
-                            onChange={(e) => setIdentificacion(e.target.value)}
+                            value={username}
+                            className="noSpinner"
+                            onChange={(e) => setUsername(e.target.value)}
                             placeholder="Identificación"
                         />
                         <input
                             type="password"
-                            value={contraseña}
-                            onChange={(e) => setContraseña(e.target.value)}
-                            placeholder="Contraseña"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="password"
                         />
-                        {/* <a href="#">¿Olvidaste tu Contraseña?</a> */}
+                        {/* <a href="#">¿Olvidaste tu password?</a> */}
                         <button className={`toggleBtn ${active ? "btn-right" : "btn-left"}`} type="submit">Iniciar Sesión</button>
                     </form>
                 </div>
