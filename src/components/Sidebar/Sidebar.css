@@ -53,6 +53,7 @@
   font-size: 14px;
   border-radius: 0.7rem;
   color: #052462;
+  font-weight: 700;
 }
 .menuItem:hover {
   cursor: pointer;
