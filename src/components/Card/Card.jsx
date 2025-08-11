@@ -2,37 +2,53 @@ import React, { useState } from "react";
 import "./Card.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { motion, AnimateSharedLayout } from "framer-motion";
+import { motion, LayoutGroup, AnimatePresence } from "framer-motion";
 import { UilTimes } from "@iconscout/react-unicons";
 import Chart from "react-apexcharts";
 
-// parent Card
-
 const Card = (props) => {
     const [expanded, setExpanded] = useState(false);
+    const layoutId = `expandableCard-${props.id}`; // ID único por tarjeta
+
     return (
-        <AnimateSharedLayout>
-            {expanded ? (
-                <ExpandedCard param={props} setExpanded={() => setExpanded(false)} />
-            ) : (
-                <CompactCard param={props} setExpanded={() => setExpanded(true)} />
-            )}
-        </AnimateSharedLayout>
+        <LayoutGroup>
+            <AnimatePresence initial={false} mode="wait">
+                {expanded ? (
+                    <ExpandedCard
+                        key={`${props.id}-expanded`}
+                        param={props}
+                        setExpanded={() => setExpanded(false)}
+                        layoutId={layoutId}
+                    />
+                ) : (
+                    <CompactCard
+                        key={`${props.id}-compact`}
+                        param={props}
+                        setExpanded={() => setExpanded(true)}
+                        layoutId={layoutId}
+                    />
+                )}
+            </AnimatePresence>
+        </LayoutGroup>
     );
 };
 
 // Compact Card
-function CompactCard({ param, setExpanded }) {
+function CompactCard({ param, setExpanded, layoutId }) {
     const Png = param.png;
     return (
         <motion.div
+            layoutId={layoutId}
             className="CompactCard"
             style={{
                 background: param.color.backGround,
                 boxShadow: param.color.boxShadow,
             }}
-            layoutId="expandableCard"
             onClick={setExpanded}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
         >
             <div className="radialBar">
                 <CircularProgressbar
@@ -51,43 +67,16 @@ function CompactCard({ param, setExpanded }) {
 }
 
 // Expanded Card
-function ExpandedCard({ param, setExpanded }) {
+function ExpandedCard({ param, setExpanded, layoutId }) {
     const data = {
         options: {
-            chart: {
-                type: "area",
-                height: "auto",
-            },
-
-            dropShadow: {
-                enabled: false,
-                enabledOnSeries: undefined,
-                top: 0,
-                left: 0,
-                blur: 3,
-                color: "#000",
-                opacity: 0.35,
-            },
-
-            fill: {
-                colors: ["#fff"],
-                type: "gradient",
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                curve: "smooth",
-                colors: ["white"],
-            },
-            tooltip: {
-                x: {
-                    format: "dd/MM/yy HH:mm",
-                },
-            },
-            grid: {
-                show: true,
-            },
+            chart: { type: "area", height: "auto" },
+            dropShadow: { enabled: false },
+            fill: { colors: ["#fff"], type: "gradient" },
+            dataLabels: { enabled: false },
+            stroke: { curve: "smooth", colors: ["white"] },
+            tooltip: { x: { format: "dd/MM/yy HH:mm" } },
+            grid: { show: true },
             xaxis: {
                 type: "datetime",
                 categories: [
@@ -105,12 +94,16 @@ function ExpandedCard({ param, setExpanded }) {
 
     return (
         <motion.div
+            layoutId={layoutId}
             className="ExpandedCard"
             style={{
                 background: param.color.backGround,
                 boxShadow: param.color.boxShadow,
             }}
-            layoutId="expandableCard"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
         >
             <div style={{ alignSelf: "flex-end", cursor: "pointer", color: "white" }}>
                 <UilTimes onClick={setExpanded} />
