@@ -26,7 +26,7 @@ const Sidebar = () => {
         }
     }
 
-    const rolUsuario = usuario?.rol || "";
+    const rolUsuario = usuario?.usuario?.rol || "";
     // Determinar cuál está activo basado en la ruta actual
     const activeIndex = SidebarData.findIndex(item => item.link === location.pathname);
 
@@ -71,9 +71,10 @@ const Sidebar = () => {
             >
                 {/* logo */}
                 <div className="logo">
-                    <img src={Logo} alt="" />
+                    {/* <img src={Logo} alt="" /> */}
                     <span>
-                        Tit<span></span>ulo
+                        BAHÍA<span><br />PACIFIC</span>
+
                     </span>
                 </div>
 
