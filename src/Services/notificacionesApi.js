@@ -9,7 +9,11 @@ export const obtenerFechaLocal = () => {
   return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
 };
 
-export const crearNotificacion = async (notificacion) => {
+export const crearNotificacion = async (
+  notificacion,
+  token_type,
+  access_token,
+) => {
   try {
     const response = await fetch(
       `http://localhost:8080/notificacion/crear_notificacion`,
@@ -17,6 +21,7 @@ export const crearNotificacion = async (notificacion) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
         },
         body: JSON.stringify(notificacion),
       },
@@ -33,13 +38,16 @@ export const crearNotificacion = async (notificacion) => {
   }
 };
 
-export const listarNotificaciones = async () => {
+export const listarNotificaciones = async (token_type, access_token) => {
   try {
     const response = await fetch(
       `http://localhost:8080/notificacion/listar_notificaciones`,
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
+        },
       },
     );
 
@@ -76,13 +84,20 @@ const calcularTiempoRelativo = (fechaISO) => {
   return fecha.toLocaleDateString();
 };
 
-export const listarMisNotificaciones = async (usuarioId) => {
+export const listarMisNotificaciones = async (
+  usuarioId,
+  token_type,
+  access_token,
+) => {
   try {
     const response = await fetch(
       `http://localhost:8080/notificacion/listar_mis_notificaciones?usuario_id=${usuarioId}`,
       {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
+        },
       },
     );
 

@@ -1,4 +1,4 @@
-export const crearPedido = async (values) => {
+export const crearPedido = async (values, token_type, access_token) => {
   const cleanData = Object.fromEntries(
     Object.entries(values).filter(([_, value]) => value !== ""),
   );
@@ -8,6 +8,7 @@ export const crearPedido = async (values) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `${token_type} ${access_token}`,
       },
       body: JSON.stringify(cleanData),
     });
@@ -24,7 +25,7 @@ export const crearPedido = async (values) => {
   }
 };
 
-export const listarPedidos = async () => {
+export const listarPedidos = async (token_type, access_token) => {
   try {
     const response = await fetch(
       "http://localhost:8080/pedido/listar_pedidos",
@@ -32,6 +33,7 @@ export const listarPedidos = async () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
         },
       },
     );
@@ -48,10 +50,17 @@ export const listarPedidos = async () => {
   }
 };
 
-export const obtenerPedidoPorId = async (id) => {
+export const obtenerPedidoPorId = async (id, token_type, access_token) => {
   try {
     const response = await fetch(
       `http://localhost:8080/pedido/listar_pedido_por_id?id_pedido=${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
+        },
+      },
     );
     if (!response.ok) {
       throw new Error("No se pudo obtener el pedido");
@@ -64,7 +73,14 @@ export const obtenerPedidoPorId = async (id) => {
   }
 };
 
-export const actualizarPedidoPorId = async (idPedido, datosActualizados) => {
+export const actualizarPedidoPorId = async (
+  idPedido,
+  datosActualizados,
+  token_type,
+  access_token,
+) => {
+  console.log("Token Type2:", token_type);
+  console.log("Access Token2:", access_token);
   try {
     const response = await fetch(
       `http://localhost:8080/pedido/actualizar_pedido_por_id?id_pedido=${idPedido}`,
@@ -72,6 +88,7 @@ export const actualizarPedidoPorId = async (idPedido, datosActualizados) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
         },
         body: JSON.stringify(datosActualizados),
       },
@@ -93,10 +110,21 @@ export const actualizarPedidoPorId = async (idPedido, datosActualizados) => {
   }
 };
 
-export const listarPedidosDelCliente = async (idCliente) => {
+export const listarPedidosDelCliente = async (
+  idCliente,
+  token_type,
+  access_token,
+) => {
   try {
     const response = await fetch(
       `http://localhost:8080/pedido/listar_pedidos_del_cliente?id_cliente=${idCliente}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
+        },
+      },
     );
 
     if (!response.ok) {

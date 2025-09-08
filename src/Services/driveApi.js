@@ -1,6 +1,11 @@
 import { obtenerUsuarioPorId } from "./usuariosApi";
 
-export const crearCarpetasDrive = async (contrato, id) => {
+export const crearCarpetasDrive = async (
+  contrato,
+  id,
+  token_type,
+  access_token,
+) => {
   const fechaActual = new Date();
   const year = fechaActual.getFullYear();
   const mes = fechaActual.getMonth() + 1; // Enero es 0
@@ -21,6 +26,7 @@ export const crearCarpetasDrive = async (contrato, id) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
         },
         body: JSON.stringify(datos),
       },

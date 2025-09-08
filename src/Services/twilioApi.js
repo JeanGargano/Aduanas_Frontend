@@ -1,4 +1,10 @@
-export const enviarMensaje = async (telefono, cliente, estado) => {
+export const enviarMensaje = async (
+  telefono,
+  cliente,
+  estado,
+  token_type,
+  access_token,
+) => {
   console.log("enviarMensaje - telefono:", telefono);
   console.log("enviarMensaje - cliente:", cliente);
   console.log("enviarMensaje - estado:", estado);
@@ -11,6 +17,7 @@ export const enviarMensaje = async (telefono, cliente, estado) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `${token_type} ${access_token}`,
         },
         body: JSON.stringify({
           numero: `+${Stelefono}`,
