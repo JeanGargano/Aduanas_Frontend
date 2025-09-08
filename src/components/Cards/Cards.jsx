@@ -1,8 +1,9 @@
-import { cardsData } from '../../Data/Data';
+import { generarCardsPedidos } from '../../Data/Data';
 import Card from '../Card/Card';
 import './Cards.css';
 
-const Cards = () => {
+const Cards = ({ resumen }) => {
+    const cardsData = generarCardsPedidos(resumen);
     return (
         <div className="Cards">
             {cardsData.map((card, index) => {
