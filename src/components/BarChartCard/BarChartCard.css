@@ -2,6 +2,7 @@
   display: flex;
   flex: 1;
   height: 10rem !important;
+  width: 95%;
   border-radius: 10px;
   background-color: var(--cards);
   padding: 1rem;
@@ -40,13 +41,27 @@
 }
 
 .BarChartContainer {
-  margin-left: 45px;
+  margin-left: 20px;
   margin-top: 40px;
 }
 
 @media screen and (max-width: 768px) {
   .ItemContainer1 {
-    width: 80%;
+    width: 97%;
+  }
+  .BarChartContainer {
+    margin-left: 0;
+    margin-top: 40px;
+  }
+  .Content {
+    text-align: left;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+}
+@media screen and (max-width: 1240px) {
+  .ItemContainer1 {
+    width: 99%;
   }
   .BarChartContainer {
     margin-left: 0;
