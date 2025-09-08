@@ -2,8 +2,8 @@
   /* padding-top: 1rem; */
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  overflow: scroll;
+  /* justify-content: space-evenly; */
+  overflow: auto;
   margin-top: 60px;
 }
 
