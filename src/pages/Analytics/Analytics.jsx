@@ -1,109 +1,151 @@
+import { useState } from "react";
 import Header from "../../components/Header/Header.jsx";
 import BarChartCard from "../../components/BarChartCard/BarChartCard";
 import LineChart from "../../components/LineChart/LineChart.jsx";
-import { BarChart, Bar, Tooltip, XAxis, YAxis } from 'recharts';
-import { data } from "../../Data/DataAnalytics.jsx"
+import Loading from "../../components/Loading/Loading.jsx";
+import { BarChart, Bar, Tooltip, XAxis, YAxis } from "recharts";
 import { useWindowWidth } from "../../hooks/useWindowWidth";
-import './Analytics.css';
+import { useAuth } from "../../Context/AuthContext";
+import { useAnalyticsData } from "../../hooks/useDataAnalytics.js";
+import { useUsuarios } from "../../hooks/useUsuarios"; // 👈 nuevo hook
+import "./Analytics.css";
 
 const Analytics = () => {
+    const { isAdmin } = useAuth();
+    const [loading] = useState(false);
     const width = useWindowWidth();
 
+    const {
+        cantidadTotalPedidos,
+        cantidadEntregados,
+        cantidadEnProceso,
+        getDataByEstado,
+        seriesRegistrados,
+        seriesEntregados,
+    } = useAnalyticsData();
+
+    const { resumen, loading: loadingUsuarios } = useUsuarios();
+
+    // 🔹 Datos de pedidos por estado
+    const data = getDataByEstado("series");
+
+    // 🔹 Fechas para el gráfico lineal
+    const hoy = new Date();
+    const dias = [];
+    for (let i = 29; i >= 0; i--) {
+        const fecha = new Date();
+        fecha.setDate(hoy.getDate() - i);
+        dias.push(fecha.toISOString()); // formato ISO
+    }
+
     const options = {
-        chart: {
-            id: "basic-line",
-        },
-        colors: ['#052462', '#E7423E'],
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-        },
+        chart: { id: "basic-line" },
+        colors: ["#052462", "#E7423E"],
+        dataLabels: { enabled: false },
+        stroke: { curve: "smooth" },
         xaxis: {
             type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
-            ],
-        },
-        tooltip: {
-            x: {
-                format: "dd/MM/yy HH:mm",
+            categories: dias,
+            labels: {
+                rotate: -90,
+                rotateAlways: true,
+                maxHeight: 120,
+                offsetY: -10,
             },
+        },
+        legend: { height: 40 },
+        tooltip: {
+            x: { format: "dd/MM/yy" },
         },
     };
 
     const series = [
-        {
-            name: "Clientes",
-            data: [31, 40, 28, 51, 42, 109, 100],
-        },
-        {
-            name: "Pedidos",
-            data: [11, 32, 45, 32, 34, 52, 41],
-        },
+        { name: "Pedidos En Progreso", data: seriesRegistrados },
+        { name: "Pedidos Completados", data: seriesEntregados },
     ];
 
     return (
         <div className="analytics">
-            <Header title="Analytics" subtitle="Visión General de Analytics" />
+            <Header title="Analíticas" subtitle="Visión General de las Analíticas" />
+
             <div>
+                {/* Tarjetas superiores */}
                 <div className="ChartItems">
-                    <BarChartCard title="Pedidos En Progreso" counter={211} fill="#052462" month="Mes Actual" />
-                    <BarChartCard title="Pedidos Completados" counter={212} fill="#6E81A4" month="Mes Actual" />
-                    <BarChartCard title="Pedidos Entregados" counter={213} fill="#E7423E" month="Mes Actual" />
+                    <BarChartCard
+                        title="Pedidos"
+                        counter={cantidadTotalPedidos}
+                        fill="#E7423E"
+                        data={getDataByEstado("REGISTRADO")}
+                    />
+                    <BarChartCard
+                        title="Pedidos En Proceso"
+                        counter={cantidadEnProceso}
+                        fill="#052462"
+                        data={getDataByEstado("EN PROCESO")}
+                    />
+                    <BarChartCard
+                        title="Pedidos Entregados"
+                        counter={cantidadEntregados}
+                        fill="#6E81A4"
+                        data={getDataByEstado("ENTREGADOS")}
+                    />
                 </div>
+
+                {/* Gráfico de línea */}
                 <div className="MiddleTaskChart">
-                    <p className="ChartText">Pedidos Creados vs Pedidos Completados </p>
+                    <p className="ChartText">Pedidos Creados vs Pedidos Completados</p>
                     <div className="LineChartVS">
                         <LineChart options={options} series={series} />
                     </div>
                 </div>
-                <div className="DobleCard">
-                    <div className="column">
-                        <p className="ChartText">Clientes</p>
-                        <div className="BarChartClientes">
-                            <BarChart width={width * 0.4} height={350} data={data}
-                                margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-                                <Tooltip />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Bar dataKey="uv" fill="#052462" />
-                            </BarChart>
+
+                {/* Gráficos inferiores */}
+                <div className={isAdmin ? "DobleCard" : "SingleCard"}>
+                    {isAdmin && (
+                        <div className="column">
+                            <p className="ChartText">Clientes</p>
+                            <div className="BarChartClientes">
+                                <BarChart
+                                    width={width * 0.4}
+                                    height={350}
+                                    data={[{ name: "Usuarios", cantidad_usuarios: resumen.cantidadTotalUsuarios }]}
+                                    margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+                                >
+                                    <Tooltip />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Bar dataKey="cantidad_usuarios" fill="#052462" barSize={40} />
+                                </BarChart>
+                            </div>
                         </div>
-                    </div>
+                    )}
+
                     <div className="column">
                         <p className="ChartText">Pedidos</p>
                         <div className="BarChartPedidos">
-                            <BarChart width={width * 0.4} height={350} data={data}
-                                margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                            <BarChart
+                                width={isAdmin ? width * 0.4 : width * 0.8}
+                                height={350}
+                                data={data}
+                                margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+                            >
                                 <Tooltip />
-                                <XAxis dataKey="name" />
+                                <XAxis
+                                    dataKey="name"
+                                    tick={{ fontSize: 8, angle: -90, textAnchor: "end" }}
+                                />
                                 <YAxis />
-                                <Bar dataKey="uv" fill="#E7423E" />
+                                <Bar dataKey="cantidad" fill="#E7423E" />
                             </BarChart>
                         </div>
                     </div>
                 </div>
-                {/* <div className="ClientesBarChart">
-                    <p className="ChartText">Clientes</p>
-                    <BarChart width={width * 0.80} height={350} data={data}
-                        margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-                        <Tooltip />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Bar dataKey="uv" fill="#6E81A4" />
-                    </BarChart>
-                </div> */}
             </div>
-        </div >
-    )
-}
 
-export default Analytics
+            {/* Loadings */}
+            <Loading open={loading || loadingUsuarios} />
+        </div>
+    );
+};
+
+export default Analytics;
