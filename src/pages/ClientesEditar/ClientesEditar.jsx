@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { obtenerUsuarioPorId, actualizarUsuarioPorId } from "../../Services/usuariosApi.js";
 import Form from "../../components/Form/Form.jsx";
+import Loading from "../../components/Loading/Loading.jsx";
 import * as yup from "yup";
-import { CircularProgress, Box, MenuItem } from "@mui/material";
+import { CircularProgress, Box } from "@mui/material";
 import { FieldsDataClientes } from "../../Data/DataClientes.jsx";
-import CustomTextField from "../../components/CustomTextField/CustomTextField.jsx";
 import Header from "../../components/Header/Header.jsx";
 import "./ClientesEditar.css";
 import Swal from "sweetalert2";
@@ -32,12 +32,13 @@ const generarValidationSchema = () => {
 const ClientesEditar = () => {
     const { id } = useParams();
     const [cliente, setCliente] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCliente = async () => {
             try {
+                setLoading(true);
                 const data = await obtenerUsuarioPorId(id);
                 setCliente(data[0]); // asumiendo que devuelve un array
             } catch (error) {
@@ -52,6 +53,7 @@ const ClientesEditar = () => {
 
     const handleSubmit = async (values) => {
         try {
+            setLoading(true);
             if (!id) throw new Error("ID de cliente no proporcionado");
 
             const datosLimpios = {};
@@ -62,7 +64,7 @@ const ClientesEditar = () => {
             console.log("Datos limpios:", datosLimpios);
             console.log("ID del cliente:", id);
 
-            const resultado = await actualizarUsuarioPorId(id, datosLimpios);
+            await actualizarUsuarioPorId(id, datosLimpios);
 
             Swal.fire({
                 title: "Pedido actualizado",
@@ -95,16 +97,10 @@ const ClientesEditar = () => {
                     confirmButton: "swal2-confirm-custom",
                 },
             });
+        } finally {
+            setLoading(false);
         }
     };
-
-    if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" mt={5}>
-                <CircularProgress />
-            </Box>
-        );
-    }
 
     if (!cliente) {
         return <div>No se pudo cargar el cliente.</div>;
@@ -130,6 +126,7 @@ const ClientesEditar = () => {
                     extraFields={null}
                 />
             </Box>
+            <Loading open={loading} />
         </div>
     )
 
