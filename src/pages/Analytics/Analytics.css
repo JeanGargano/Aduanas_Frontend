@@ -2,14 +2,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  overflow: scroll;
+  overflow: auto;
   margin-top: 60px;
 }
 
 .ChartItems {
   width: 95%;
   display: flex;
-  gap: 10px;
+  gap: 1rem;
   margin-left: 2rem;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .DobleCard {
-  display: grid;
+  display: grid !important;
   grid-template-columns: 49% 50%; /* dos columnas iguales */
   gap: 10px; /* espacio entre columnas */
   margin: 1rem 2rem;
@@ -47,6 +47,15 @@
   padding: 10px;
   background: var(--cards);
   border-radius: 10px;
+}
+
+.SingleCard {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  margin: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .ClientesBarChart {
