@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./Login.css";
+import Loading from "../../components/Loading/Loading.jsx";
 import { useNavigate } from "react-router-dom";
 import { logearUsuario, asignarContrasena } from "../../Services/usuariosApi";
 import { useAuth } from "../../Context/AuthContext";
@@ -7,6 +8,7 @@ import Swal from "sweetalert2";
 
 export default function Auth() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [active, setActive] = useState(false);
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
@@ -17,12 +19,12 @@ export default function Auth() {
         e.preventDefault();
 
         const { value: formValues } = await Swal.fire({
-            title: "Asignar password",
+            title: "Asignar Contraseña",
             icon: "question",
             html: `
             <div class="swal2-custom-input-container">
-                <input type="password" id="swal-pass" class="swal2-input" placeholder="Nueva password">
-                <input type="password" id="swal-pass-confirm" class="swal2-input" placeholder="Confirmar password">
+                <input type="password" id="swal-pass" class="swal2-input" placeholder="Nueva contraseña">
+                <input type="password" id="swal-pass-confirm" class="swal2-input" placeholder="Confirmar contraseña">
             </div>
         `,
             showCancelButton: true,
@@ -44,7 +46,7 @@ export default function Auth() {
                 }
 
                 if (pass !== confirm) {
-                    Swal.showValidationMessage("❌ Las passwords no coinciden.");
+                    Swal.showValidationMessage("❌ Las contraseñas no coinciden.");
                     return false;
                 }
 
@@ -54,14 +56,15 @@ export default function Auth() {
 
         if (formValues) {
             try {
+                setLoading(true);
                 const res = await asignarContrasena({
-                    username,
-                    password: formValues.pass,
+                    identificacion: username,
+                    contraseña: formValues.pass,
                 });
                 Swal.fire({
                     icon: "success",
-                    title: "password asignada",
-                    text: res.message || "La password se asignó correctamente.",
+                    title: "Contraseña asignada",
+                    text: res.message || "La contraseña se asignó correctamente.",
                     timer: 2500,
                     showConfirmButton: false,
                 });
@@ -70,8 +73,10 @@ export default function Auth() {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: error.message || "No se pudo asignar la password.",
+                    text: error.message || "No se pudo asignar la contraseña.",
                 });
+            } finally {
+                setLoading(false);
             }
         }
     };
@@ -80,9 +85,9 @@ export default function Auth() {
         e.preventDefault();
 
         try {
+            setLoading(true);
             logearUsuario({ username, password })
                 .then((datos) => {
-                    console.log("Login successful:", datos);
                     iniciarSesion(datos);
                     navigate("/dashboard"); // Redirige al dashboard después de iniciar sesión
                 })
@@ -101,6 +106,8 @@ export default function Auth() {
                 title: "Error",
                 text: "Error al iniciar sesión: " + error.message,
             });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -127,7 +134,7 @@ export default function Auth() {
                 <div className="form-container sign-in">
                     <form onSubmit={handleLogin}>
                         <h1>Iniciar Sesión</h1>
-                        <span>Utiliza tu número de identificación y password</span>
+                        <span>Utiliza tu número de identificación y Contraseña</span>
                         <input
                             type="number"
                             value={username}
@@ -139,7 +146,7 @@ export default function Auth() {
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="password"
+                            placeholder="Contraseña"
                         />
                         {/* <a href="#">¿Olvidaste tu password?</a> */}
                         <button className={`toggleBtn ${active ? "btn-right" : "btn-left"}`} type="submit">Iniciar Sesión</button>
@@ -176,6 +183,7 @@ export default function Auth() {
                     </div>
                 </div>
             </div>
+            <Loading open={loading} />
         </div>
     );
 }
