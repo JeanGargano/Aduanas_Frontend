@@ -1,7 +1,6 @@
-import { Box, Button, MenuItem } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { Formik } from "formik";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import * as yup from "yup";
 import CustomTextField from "../CustomTextField/CustomTextField.jsx";
 
 
@@ -29,8 +28,16 @@ const Form = ({ onSubmit, initialValues, validationSchema, extraFields, btnText,
                         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
                         sx={{
                             "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+                            "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+                                WebkitAppearance: "none",
+                                margin: 0,
+                            },
+                            "& input[type=number]": {
+                                MozAppearance: "textfield",
+                            },
                         }}
                         overflow="auto"
+                        onWheel={(e) => e.target.blur()}
                     >
                         {/* Campos extra inyectados desde el padre */}
                         {extraFields?.({
