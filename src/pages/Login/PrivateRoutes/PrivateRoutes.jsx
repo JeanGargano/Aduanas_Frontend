@@ -1,11 +1,12 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../../../Context/AuthContext"
+import Loading from "../../../components/Loading/Loading.jsx";
 
 
 const PrivateRoutes = () => {
-    const { estaAutenticado, isAdmin, usuario, loading } = useAuth();
+    const { estaAutenticado, isAdmin, loading } = useAuth();
 
-    if (loading) return <div>Cargando...</div>; // evita redirección antes de montar
+    if (loading) return <Loading open={loading} />;
     if (!estaAutenticado()) return <Navigate to="/" replace />;
 
     if (window.location.pathname.includes("/admin") && !isAdmin()) {
