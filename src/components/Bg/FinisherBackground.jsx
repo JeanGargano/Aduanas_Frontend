@@ -1,4 +1,3 @@
-// src/components/FinisherBackground.jsx
 import { useEffect } from "react";
 
 const FinisherBackground = () => {
