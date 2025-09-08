@@ -59,7 +59,7 @@
 @media screen and (max-width: 1200px) {
   .AppGlass {
     grid-template-columns: 10% auto 20%;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
   .no-columns {
     grid-template-columns: 10% auto;
