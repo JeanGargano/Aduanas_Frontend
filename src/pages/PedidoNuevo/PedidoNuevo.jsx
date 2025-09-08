@@ -1,5 +1,4 @@
-import { Box, Button, MenuItem } from "@mui/material";
-import { Formik } from "formik";
+import { Box, MenuItem } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header.jsx";
@@ -13,15 +12,20 @@ import { crearPedido } from "../../Services/pedidosApi.js";
 import { crearCarpetasDrive } from "../../Services/driveApi.js";
 import { listarUsuarios, obtenerUsuarioPorId } from "../../Services/usuariosApi.js";
 import { crearNotificacion, obtenerFechaLocal } from "../../Services/notificacionesApi.js";
-
+import { useToken } from "../../hooks/useToken.js";
+import Loading from "../../components/Loading/Loading.jsx";
 
 const PedidoNuevo = () => {
     const [clientes, setClientes] = useState([]);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+
+    const { token_type, access_token } = useToken();
 
     useEffect(() => {
         const fetchClientes = async () => {
             try {
+                setLoading(true);
                 const data = await listarUsuarios();
                 setClientes(data);
             } catch (error) {
@@ -39,6 +43,8 @@ const PedidoNuevo = () => {
                         confirmButton: "swal2-confirm-custom",
                     },
                 });
+            } finally {
+                setLoading(false);
             }
         };
         fetchClientes();
@@ -46,9 +52,13 @@ const PedidoNuevo = () => {
 
     const handleFormSubmit = async (values, actions) => {
         try {
-            const resultado = await crearPedido(values);
-            // await crearCarpetasDrive(values.numero_contrato, values.id_cliente);
+            setLoading(true);
+            const resultado = await crearPedido(values, token_type, access_token);
+            await crearCarpetasDrive(values.numero_contrato, values.id_cliente, token_type, access_token);
             const usuario = await obtenerUsuarioPorId(values.id_cliente);
+
+            console.log("estos son los valores", values);
+            console.log("Usuario encontrado:", usuario);
 
             const nuevaNotificacion = {
                 usuario_id: values.id_cliente,
@@ -56,7 +66,9 @@ const PedidoNuevo = () => {
                 mensaje: `Señor/a ${usuario[0].nombre} el estado de su pedido ${values.numero_contrato} ha sido actualizado a ${values.estado}.`,
                 fecha: obtenerFechaLocal()
             };
-            await crearNotificacion(nuevaNotificacion);
+
+            await crearNotificacion(nuevaNotificacion, token_type, access_token);
+
 
             actions.resetForm();
 
@@ -92,6 +104,8 @@ const PedidoNuevo = () => {
                     confirmButton: "swal2-confirm-custom",
                 },
             });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -143,13 +157,30 @@ const PedidoNuevo = () => {
                                 helperText={touched.estado && errors.estado}
                                 sx={{ gridColumn: "span 2" }}
                             >
+                                <MenuItem value="REGISTRADO">Registrado</MenuItem>
                                 <MenuItem value="EN PUERTO">En Puerto</MenuItem>
                                 <MenuItem value="ENTREGADO">Entregado</MenuItem>
                                 <MenuItem value="EN PROCESO">En Proceso</MenuItem>
                             </CustomTextField>
+                            <CustomTextField
+                                name="puerto_arribo"
+                                label="Puerto"
+                                select
+                                value={values.puerto_arribo}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={!!touched.puerto_arribo && !!errors.puerto_arribo}
+                                helperText={touched.puerto_arribo && errors.puerto_arribo}
+                                sx={{ gridColumn: "span 2" }}
+                            >
+                                <MenuItem value="SOC. PORTUARIA REGIONAL BTURA">SOC. PORTUARIA REGIONAL BTURA</MenuItem>
+                                <MenuItem value="SOC. PUERTO INDUSTRIAL AGUADULCE">SOC. PUERTO INDUSTRIAL AGUADULCE</MenuItem>
+                                <MenuItem value="SOC. PORTUARIA TERMINAL DE CONTENEDORES">SOC. PORTUARIA TERMINAL DE CONTENEDORES</MenuItem>
+                            </CustomTextField>
                         </>
                     )} />
             </Box>
+            <Loading open={loading} />
         </div>
     );
 };
