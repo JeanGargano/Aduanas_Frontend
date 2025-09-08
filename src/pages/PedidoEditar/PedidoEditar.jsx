@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { obtenerPedidoPorId, actualizarPedidoPorId } from "../../Services/pedidosApi.js";
 import Form from "../../components/Form/Form.jsx";
 import * as yup from "yup";
-import { CircularProgress, Box, MenuItem } from "@mui/material";
+import { Box, MenuItem } from "@mui/material";
 import { FieldsData } from "../../Data/DataPedidos.jsx";
 import CustomTextField from "../../components/CustomTextField/CustomTextField.jsx";
 import Header from "../../components/Header/Header.jsx";
+import Loading from "../../components/Loading/Loading.jsx";
+import { crearCorreo } from "../../Services/SmtpApi.js";
 import { crearNotificacion, obtenerFechaLocal } from "../../Services/notificacionesApi.js";
 import { obtenerUsuarioPorId } from "../../Services/usuariosApi.js";
+import { useToken } from "../../hooks/useToken.js";
 import "./PedidoEditar.css";
 import Swal from "sweetalert2";
 
@@ -40,13 +43,16 @@ const generarValidationSchema = () => {
 const PedidoEditar = () => {
     const { id } = useParams();
     const [pedido, setPedido] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    const { token_type, access_token } = useToken();
 
     useEffect(() => {
         const fetchPedido = async () => {
             try {
-                const data = await obtenerPedidoPorId(id);
+                setLoading(true);
+                const data = await obtenerPedidoPorId(id, token_type, access_token);
                 setPedido(data[0]);
             } catch (error) {
                 console.error("Error al obtener pedido:", error);
@@ -56,10 +62,11 @@ const PedidoEditar = () => {
         };
 
         fetchPedido();
-    }, [id]);
+    }, [id, token_type, access_token]);
 
     const handleSubmit = async (values) => {
         try {
+            setLoading(true);
             if (!id) {
                 throw new Error("ID del pedido no está presente.");
             }
@@ -70,7 +77,7 @@ const PedidoEditar = () => {
                 datosLimpios[key] = value === "" ? null : value;
             });
 
-            const resultado = await actualizarPedidoPorId(id, datosLimpios);
+            await actualizarPedidoPorId(id, datosLimpios, token_type, access_token);
 
             const usuario = await obtenerUsuarioPorId(datosLimpios.id_cliente);
 
@@ -81,7 +88,18 @@ const PedidoEditar = () => {
                 fecha: obtenerFechaLocal()
             };
 
-            await crearNotificacion(nuevaNotificacion);
+            const nuevoCorreo = {
+                destinatario: usuario[0].correo,
+                asunto: `Cambio de estado a ${datosLimpios.estado}`,
+                numero_contrato: datosLimpios.numero_contrato,
+                producto: datosLimpios.producto,
+                contender: datosLimpios.contenedor,
+                puerto: datosLimpios.puerto_arribo,
+                dias_libres: `${datosLimpios.dias_libres}`
+            };
+
+            await crearNotificacion(nuevaNotificacion, token_type, access_token);
+            await crearCorreo(nuevoCorreo);
 
             Swal.fire({
                 title: "Pedido actualizado",
@@ -114,15 +132,13 @@ const PedidoEditar = () => {
                     confirmButton: "swal2-confirm-custom",
                 },
             });
+        } finally {
+            setLoading(false);
         }
     };
 
     if (loading) {
-        return (
-            <Box display="flex" justifyContent="center" mt={5}>
-                <CircularProgress />
-            </Box>
-        );
+        return <Loading open={loading} />;
     }
 
     if (!pedido) {
@@ -133,6 +149,7 @@ const PedidoEditar = () => {
     const initialValues = {
         ...generarValoresIniciales(pedido),
         estado: pedido.estado || "", // <- esto asegura que sí esté
+        puerto_arribo: pedido.puerto_arribo || "",
     };
     const validationSchema = generarValidationSchema();
 
@@ -147,24 +164,43 @@ const PedidoEditar = () => {
                     btnText="Actualizar Pedido"
                     FieldsData={FieldsData}
                     extraFields={({ values, errors, touched, handleChange, handleBlur }) => (
-                        <CustomTextField
-                            name="estado"
-                            label="Estado"
-                            select
-                            value={values.estado}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            error={!!touched.estado && !!errors.estado}
-                            helperText={touched.estado && errors.estado}
-                            sx={{ gridColumn: "span 2" }}
-                        >
-                            <MenuItem value="EN PUERTO">En Puerto</MenuItem>
-                            <MenuItem value="ENTREGADO">Entregado</MenuItem>
-                            <MenuItem value="EN PROCESO">En Proceso</MenuItem>
-                        </CustomTextField>
+                        <>
+                            <CustomTextField
+                                name="estado"
+                                label="Estado"
+                                select
+                                value={values.estado}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={!!touched.estado && !!errors.estado}
+                                helperText={touched.estado && errors.estado}
+                                sx={{ gridColumn: "span 2" }}
+                            >
+                                <MenuItem value="REGISTRADO">Registrado</MenuItem>
+                                <MenuItem value="EN PUERTO">En Puerto</MenuItem>
+                                <MenuItem value="ENTREGADO">Entregado</MenuItem>
+                                <MenuItem value="EN PROCESO">En Proceso</MenuItem>
+                            </CustomTextField>
+                            <CustomTextField
+                                name="puerto_arribo"
+                                label="Puerto"
+                                select
+                                value={values.puerto_arribo}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                error={!!touched.puerto_arribo && !!errors.puerto_arribo}
+                                helperText={touched.puerto_arribo && errors.puerto_arribo}
+                                sx={{ gridColumn: "span 2" }}
+                            >
+                                <MenuItem value="SOC. PORTUARIA REGIONAL BTURA">SOC. PORTUARIA REGIONAL BTURA</MenuItem>
+                                <MenuItem value="SOC. PUERTO INDUSTRIAL AGUADULCE">SOC. PUERTO INDUSTRIAL AGUADULCE</MenuItem>
+                                <MenuItem value="SOC. PORTUARIA TERMINAL DE CONTENEDORES">SOC. PORTUARIA TERMINAL DE CONTENEDORES</MenuItem>
+                            </CustomTextField>
+                        </>
                     )}
                 />
             </Box>
+            <Loading open={loading} />
         </div>
     );
 };
