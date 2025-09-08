@@ -1,4 +1,5 @@
 import "./Updates.css";
+import Loading from "../../components/Loading/Loading.jsx";
 import { useEffect, useState } from "react";
 import { listarNotificaciones, listarMisNotificaciones } from "../../Services/notificacionesApi";
 import { useAuth } from "../../Context/AuthContext";
@@ -6,31 +7,38 @@ import { useAuth } from "../../Context/AuthContext";
 const Updates = () => {
     const [updates, setUpdates] = useState([]);
     const { usuario } = useAuth();
+    const [loading, setLoading] = useState(false);
 
-    const usuarioId = usuario?.identificacion;
-    const rolUsuario = usuario?.rol || "Cliente"; // por defecto cliente
+    const usuarioId = usuario?.usuario?.identificacion;
+    const rolUsuario = usuario?.usuario?.rol || "Cliente"; // por defecto cliente
+
+    const token_type = usuario?.token_type;
+    const access_token = usuario?.access_token;
 
     useEffect(() => {
         if (!usuario) return;
 
         const fetchUpdates = async () => {
             try {
+                setLoading(true);
                 let data;
                 if (rolUsuario.toLowerCase() === "administrador") {
                     // 🔹 Admin ve todas
-                    data = await listarNotificaciones();
+                    data = await listarNotificaciones(token_type, access_token);
                 } else {
                     // 🔹 Cliente ve solo las suyas
-                    data = await listarMisNotificaciones(usuarioId);
+                    data = await listarMisNotificaciones(usuarioId, token_type, access_token);
                 }
-                setUpdates(data);
+                setUpdates(data.reverse());
             } catch (error) {
                 console.error("Error al cargar notificaciones:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchUpdates();
-    }, [usuarioId, rolUsuario, usuario]);
+    }, [usuarioId, rolUsuario, usuario, token_type, access_token]);
 
     return (
         <div className="Updates">
@@ -49,6 +57,7 @@ const Updates = () => {
             ) : (
                 <p>No hay notificaciones disponibles.</p>
             )}
+            <Loading open={loading} />
         </div>
     );
 };
