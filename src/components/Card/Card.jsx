@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Card.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -68,6 +68,22 @@ function CompactCard({ param, setExpanded, layoutId }) {
 
 // Expanded Card
 function ExpandedCard({ param, setExpanded, layoutId }) {
+    const hoy = new Date();
+    const dias = [];
+
+    const corregirFormatoFecha = (fecha) => {
+        const año = fecha.getFullYear();
+        const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+        const dia = String(fecha.getDate()).padStart(2, "0");
+        return `${año}-${mes}-${dia}T00:00:00`;
+    }
+
+    for (let i = 29; i >= 0; i--) {
+        const fecha = new Date();
+        fecha.setDate(hoy.getDate() - i);
+        dias.push(corregirFormatoFecha(fecha)); // formato ISO para ApexCharts (type: datetime)
+    }
+
     const data = {
         options: {
             chart: { type: "area", height: "auto" },
@@ -75,19 +91,11 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
             fill: { colors: ["#fff"], type: "gradient" },
             dataLabels: { enabled: false },
             stroke: { curve: "smooth", colors: ["white"] },
-            tooltip: { x: { format: "dd/MM/yy HH:mm" } },
+            tooltip: { x: { format: "dd/MM/yy" } },
             grid: { show: true },
             xaxis: {
                 type: "datetime",
-                categories: [
-                    "2018-09-19T00:00:00.000Z",
-                    "2018-09-19T01:30:00.000Z",
-                    "2018-09-19T02:30:00.000Z",
-                    "2018-09-19T03:30:00.000Z",
-                    "2018-09-19T04:30:00.000Z",
-                    "2018-09-19T05:30:00.000Z",
-                    "2018-09-19T06:30:00.000Z",
-                ],
+                categories: dias,
             },
         },
     };
