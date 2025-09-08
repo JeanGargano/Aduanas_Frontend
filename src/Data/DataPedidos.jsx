@@ -1,17 +1,29 @@
 import { Link } from "react-router-dom";
-import { Button } from "@mui/material";
 
 const gridColumnsSmall = 24;
 
 export const FieldsData = [
+    {
+        name: "fecha_creacion",
+        label: "Fecha de Creación del Pedido",
+        type: "date",
+        gridColumn: gridColumnsSmall,
+    },
     {
         name: "id_cliente",
         label: "ID Cliente",
         gridColumn: gridColumnsSmall,
     },
     {
+        name: "do",
+        label: "D.O",
+        type: "string",
+        gridColumn: gridColumnsSmall,
+    },
+    {
         name: "numero_contrato",
         label: "Número Contrato",
+        type: "string",
         gridColumn: gridColumnsSmall,
     },
     {
@@ -44,40 +56,46 @@ export const FieldsData = [
         type: "date",
         gridColumn: gridColumnsSmall,
     },
-    { name: "sticker", label: "Sticker", gridColumn: gridColumnsSmall },
-    { name: "dec_valor", label: "DEC Valor", gridColumn: gridColumnsSmall },
-    { name: "proveedor", label: "Proveedor", gridColumn: gridColumnsSmall },
-    { name: "producto", label: "Producto", gridColumn: gridColumnsSmall },
+    { name: "sticker", label: "Sticker", type: "number", gridColumn: gridColumnsSmall },
+    { name: "dec_valor", label: "DEC Valor", type: "string", gridColumn: gridColumnsSmall },
+    { name: "proveedor", label: "Proveedor", type: "string", gridColumn: gridColumnsSmall },
+    { name: "producto", label: "Producto", type: "string", gridColumn: gridColumnsSmall },
     {
         name: "numero_factura",
         label: "Número Factura",
+        type: "string",
         gridColumn: gridColumnsSmall,
     },
     {
         name: "fecha_factura",
         label: "Fecha Factura",
+        type: "date",
         gridColumn: gridColumnsSmall,
     },
     {
         name: "numero_lista_empaque",
         label: "Número Lista Empaque",
+        type: "string",
         gridColumn: gridColumnsSmall,
     },
-    { name: "tipo_empaque", label: "Tipo Empaque", gridColumn: gridColumnsSmall },
+    { name: "tipo_empaque", label: "Tipo Empaque", type: "string", gridColumn: gridColumnsSmall },
     {
         name: "certificado_sanitario",
         label: "Certificado Sanitario",
+        type: "string",
         gridColumn: gridColumnsSmall,
     },
-    { name: "lote", label: "Lote", gridColumn: gridColumnsSmall },
+    { name: "lote", label: "Lote", type: "string", gridColumn: gridColumnsSmall },
     {
         name: "fecha_vencimiento",
         label: "Fecha Vencimiento",
+        type: "date",
         gridColumn: gridColumnsSmall,
     },
     {
         name: "radicado_invima",
         label: "Radicado Invima",
+        type: "number",
         gridColumn: gridColumnsSmall,
     },
     {
@@ -95,6 +113,7 @@ export const FieldsData = [
     {
         name: "numero_solicitud_invima",
         label: "Número Solicitud Invima",
+        type: "string",
         gridColumn: gridColumnsSmall,
     },
     {
@@ -112,16 +131,17 @@ export const FieldsData = [
     {
         name: "registro_de_importacion",
         label: "Registro de Importación",
+        type: "string",
         gridColumn: gridColumnsSmall,
     },
     { name: "fecha", label: "Fecha", type: "date", gridColumn: gridColumnsSmall },
-    { name: "bl", label: "BL", gridColumn: gridColumnsSmall },
-    { name: "naviera", label: "Naviera", gridColumn: gridColumnsSmall },
-    { name: "moto_nave", label: "Moto Nave", gridColumn: gridColumnsSmall },
-    { name: "bandera", label: "Bandera", gridColumn: gridColumnsSmall },
-    { name: "viaje", label: "Viaje", gridColumn: gridColumnsSmall },
-    { name: "contenedor", label: "Contenedor", gridColumn: gridColumnsSmall },
-    { name: "peso", label: "Peso", type: "number", gridColumn: gridColumnsSmall },
+    { name: "bl", label: "BL", type: "string", gridColumn: gridColumnsSmall },
+    { name: "naviera", label: "Naviera", type: "string", gridColumn: gridColumnsSmall },
+    { name: "moto_nave", label: "Moto Nave", type: "string", gridColumn: gridColumnsSmall },
+    { name: "bandera", label: "Bandera", type: "string", gridColumn: gridColumnsSmall },
+    { name: "viaje", label: "Viaje", type: "string", gridColumn: gridColumnsSmall },
+    { name: "contenedor", label: "Contenedor", type: "string", gridColumn: gridColumnsSmall },
+    { name: "peso", label: "Peso", type: "string", gridColumn: gridColumnsSmall },
     {
         name: "manifiesto",
         label: "Manifiesto",
@@ -129,13 +149,8 @@ export const FieldsData = [
         gridColumn: gridColumnsSmall,
     },
     {
-        name: "puerto_arribo",
-        label: "Puerto Arribo",
-        gridColumn: gridColumnsSmall,
-    },
-    {
         name: "fecha_llegada",
-        label: "Fecha Llegada",
+        label: "Fecha Arribo",
         type: "date",
         gridColumn: gridColumnsSmall,
     },
@@ -184,6 +199,14 @@ export const columnsPedidos = [
         ...columStyle,
     },
     {
+        field: "do",
+        headerName: "D.O",
+        type: "string",
+        align: "left",
+        headerAlign: "left",
+        ...columStyle,
+    },
+    {
         field: "id_cliente",
         headerName: "ID Cliente",
         type: "string",
@@ -201,12 +224,23 @@ export const columnsPedidos = [
         ...columStyle,
     },
     {
+        field: "fecha_creacion",
+        headerName: "Fecha de Creación",
+        type: "date",
+        valueGetter: (params) => {
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
+            return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
+        },
+        ...columStyle,
+    },
+    {
         field: "fecha_arribo",
         headerName: "Fecha de Arribo",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -216,8 +250,8 @@ export const columnsPedidos = [
         headerName: "Fecha de Entrega Transporte",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -243,8 +277,8 @@ export const columnsPedidos = [
         headerName: "Fecha Aceptación",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -284,8 +318,8 @@ export const columnsPedidos = [
         headerName: "Fecha Vencimiento",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -304,8 +338,8 @@ export const columnsPedidos = [
         headerName: "Fecha Radicado Invima",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -328,8 +362,8 @@ export const columnsPedidos = [
         headerName: "Fecha Certificado Invima",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -341,8 +375,8 @@ export const columnsPedidos = [
     },
     {
         field: "fecha", headerName: "Fecha", type: "date", valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         }, ...columStyle
     },
@@ -374,8 +408,8 @@ export const columnsPedidos = [
         headerName: "Fecha Llegada",
         type: "date",
         valueGetter: (params) => {
-            if (!params?.value) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params.value);
+            if (!params) return null; // si no hay valor, devuelve null
+            const fecha = new Date(params);
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
