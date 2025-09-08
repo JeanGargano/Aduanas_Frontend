@@ -1,8 +1,7 @@
-import { data } from "../../Data/DataAnalytics"
-import { BarChart, Bar, Tooltip } from 'recharts';
+import { BarChart, Bar, Tooltip, XAxis } from 'recharts';
 import './BarChartCard.css';
 
-const BarChartCard = ({ title, counter, fill }) => {
+const BarChartCard = ({ title, counter, fill, data }) => {
     return (
         <div>
             <div className="ItemContainer">
@@ -13,9 +12,14 @@ const BarChartCard = ({ title, counter, fill }) => {
                         <p className="currentMonth1">Mes actual</p>
                     </div>
                     <div className="BarChartContainer">
-                        <BarChart width={166} height={70} data={data}>
+                        <BarChart width={260} height={120} data={data}>
+                            <XAxis
+                                dataKey="name"
+                                tick={{ fontSize: 8, angle: -90, textAnchor: "end" }}
+                                interval={3}
+                            />
                             <Tooltip />
-                            <Bar dataKey="uv" fill={fill} />
+                            <Bar dataKey="cantidad" fill={fill} />
                         </BarChart>
                     </div>
                 </div>
@@ -24,4 +28,4 @@ const BarChartCard = ({ title, counter, fill }) => {
     )
 }
 
-export default BarChartCard
+export default BarChartCard;
