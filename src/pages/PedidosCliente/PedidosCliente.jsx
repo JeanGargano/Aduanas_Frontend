@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Header from "../../components/Header/Header.jsx";
+import Loading from '../../components/Loading/Loading.jsx';
 import { useParams, useNavigate } from "react-router-dom";
-import { Box, Button, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { usePClientes } from "../../hooks/usePClientes.js"; // Asegúrate de que este hook esté implementado
 import { columnsPedidos } from "../../Data/DataPedidos.jsx";
 import Table from "../../components/Table/Table";
@@ -11,13 +13,17 @@ import './PedidosCliente.css';
 
 const PedidosCliente = () => {
   const { id } = useParams();
+  const [loading] = useState(false);
   const { usuario } = useAuth();
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  const rol = usuario.rol;
+  const rol = usuario.usuario?.rol;
 
-  const { rows, loading, error } = usePClientes(id, rol);
+  const token_type = usuario.token_type;
+  const access_token = usuario.access_token;
+
+  const { rows, error } = usePClientes(id, rol, token_type, access_token);
 
   const limpiarCachePedidos = () => {
     localStorage.removeItem("pedidos");
@@ -58,9 +64,7 @@ const PedidosCliente = () => {
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" mt={5}>
-        <CircularProgress />
-      </Box>
+      <Loading open={loading} />
     );
   }
 
@@ -70,7 +74,6 @@ const PedidosCliente = () => {
 
   return (
     <div className="pedidosCliente">
-      <Backdrop sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }} open={loading} />
       <Box m={2} p={isMobile ? 2 : 6}>
         <Box
           display="flex"
@@ -144,6 +147,7 @@ const PedidosCliente = () => {
           <Table rows={rows} columns={columnsPedidos} />
         </Box>
       </Box>
+      <Loading open={loading} />
     </div>
   );
 };
