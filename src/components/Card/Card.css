@@ -64,12 +64,12 @@
   width: 60%;
   height: 70vh;
   z-index: 9;
-  left: 13rem;
+  right: 22%;
   border-radius: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   padding: 1rem;
 }
 .ExpandedCard > span:nth-of-type(1) {
@@ -89,17 +89,29 @@
 
 @media screen and (max-width: 1200px) {
   .ExpandedCard {
-    top: 2rem;
+    top: 20%;
     height: 45vh;
-    left: 6rem;
+    right: 22%;
+    justify-content: center;
   }
 }
 
 @media screen and (max-width: 768px) {
   .ExpandedCard {
+    top: 20%;
+    height: 50%;
+    right: 8%;
+    width: 80%;
+    justify-content: center;
+  }
+}
+
+/* @media screen and (max-width: 1440px) {
+  .ExpandedCard {
     top: 8rem;
     height: 50%;
     left: 25px;
     width: 80%;
+    justify-content: center;
   }
-}
+} */
