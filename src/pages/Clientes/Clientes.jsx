@@ -1,7 +1,9 @@
 import Table from "../../components/Table/Table.jsx";
+import { useState } from "react";
 import Header from "../../components/Header/Header.jsx";
+import Loading from '../../components/Loading/Loading.jsx';
 import { useNavigate } from "react-router-dom";
-import { Box, Button, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { UilFilePlus } from '@iconscout/react-unicons';
 import { useUsuarios } from "../../hooks/useUsuarios.js";
 import { columnsUsuarios } from "../../Data/DataClientes.jsx";
@@ -12,11 +14,11 @@ import './Clientes.css';
 
 const Clientes = () => {
     const navigate = useNavigate();
+    const [loading] = useState(false);
     const isMobile = useMediaQuery("(max-width:600px)");
 
-    const { usuarios, loading, error } = useUsuarios();
+    const { usuarios, error } = useUsuarios();
 
-    if (loading) return <p>Cargando usuarios...</p>;
     if (error) return <p>Error al cargar usuarios</p>;
 
     const limpiarCacheUsuarios = () => {
@@ -61,13 +63,6 @@ const Clientes = () => {
 
     return (
         <div className="Clientes">
-            <Backdrop
-                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={loading}
-            >
-                <CircularProgress color="inherit" />
-            </Backdrop>
-
             <Box m={2} p={isMobile ? 2 : 6}>
                 <Box
                     display="flex"
@@ -148,6 +143,7 @@ const Clientes = () => {
                     </div>
                 </Box>
             </Box>
+            <Loading open={loading} />
         </div>
     );
 };
