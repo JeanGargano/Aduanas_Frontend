@@ -1,19 +1,21 @@
-import { Box, Button, MenuItem } from "@mui/material";
-import { Formik } from "formik";
+import { useState } from "react";
+import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header.jsx";
 import { FieldsDataClientes } from "../../Data/DataClientes.jsx";
 import Form from "../../components/Form/Form.jsx";
-import CustomTextField from "../../components/CustomTextField/CustomTextField.jsx";
+import Loading from "../../components/Loading/Loading.jsx";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import { crearCliente } from "../../Services/usuariosApi.js";
 
 const ClienteNuevo = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (values, actions) => {
         try {
+            setLoading(true);
             const respuesta = await crearCliente(values);
             console.log("Cliente creado:", respuesta);
             actions.resetForm();
@@ -48,6 +50,8 @@ const ClienteNuevo = () => {
                 },
             });
 
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,6 +78,7 @@ const ClienteNuevo = () => {
                 extraFields={null}
                 FieldsData={FieldsDataClientes}
             />
+            <Loading open={loading} />
         </Box>
     );
 };
