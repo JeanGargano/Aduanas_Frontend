@@ -1,30 +1,38 @@
+import { useState } from 'react';
 import Table from '../../components/Table/Table.jsx';
 import Header from '../../components/Header/Header.jsx';
+import Loading from '../../components/Loading/Loading.jsx';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, useMediaQuery, Backdrop, CircularProgress } from "@mui/material";
+import { Box, Button, useMediaQuery } from "@mui/material";
 import { UilFilePlus } from '@iconscout/react-unicons';
 import { columnsPedidos } from '../../Data/DataPedidos.jsx';
 import { usePedidosRol } from '../../hooks/usePedidosRol.js';
 import { useAuth } from '../../Context/AuthContext.jsx';
 import { enviarMensaje } from '../../Services/twilioApi.js';
 import { obtenerUsuarioPorId } from '../../Services/usuariosApi.js';
+import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import './Pedidos.css';
 
 const Pedidos = () => {
     const { usuario } = useAuth();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const isMobile = useMediaQuery("(max-width:600px)");
 
-    const rol = usuario?.rol;
+    const rol = usuario?.usuario?.rol;
 
-    const { rows, loading, error } = usePedidosRol();
+    const token_type = usuario?.token_type;
+    const access_token = usuario?.access_token;
 
-    if (loading) return <p>Cargando pedidos...</p>;
+    const { rows, error } = usePedidosRol();
+
+    if (loading) return <Loading open={loading} />;
+
     if (error) return <p>Error al cargar pedidos</p>;
 
     const limpiarCachePedidos = () => {
-        if (usuario?.rol === 'Administrador') {
+        if (rol === 'Administrador') {
             localStorage.removeItem("pedidos");
             localStorage.removeItem("pedidos_cache_time");
         } else {
@@ -34,6 +42,7 @@ const Pedidos = () => {
     }
     const mostrarPopupNotificacion = async (rows) => {
         try {
+            setLoading(true);
             const cliente = await obtenerUsuarioPorId(rows.id_cliente);
 
             const result = await Swal.fire({
@@ -61,7 +70,7 @@ const Pedidos = () => {
             });
 
             if (result.isConfirmed) {
-                await enviarMensaje(cliente[0].celular, cliente[0].nombre, rows.estado);
+                await enviarMensaje(cliente[0].celular, cliente[0].nombre, rows.estado, token_type, access_token);
 
                 await Swal.fire({
                     title: "Notificación Enviada",
@@ -88,6 +97,8 @@ const Pedidos = () => {
                     confirmButton: "swal2-confirm-custom",
                 },
             });
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -130,45 +141,118 @@ const Pedidos = () => {
         handleNotificar: () => mostrarPopupNotificacion(pedido),
     }));
 
-    // Si es admin, incluye la columna de notificar
-    const columnas = rol === "Administrador"
-        ? [
-            {
-                field: "notificar",
-                headerName: "Notificar",
-                width: 150,
-                renderCell: (params) => (
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => mostrarPopupNotificacion(params.row)}
-                        sx={{
-                            backgroundColor: "#E7423E",
-                            color: "#fff",
-                            fontSize: "12px",
-                            fontWeight: "bold",
-                            "&:hover": {
-                                backgroundColor: "#6E81A4",
-                            },
-                        }}
-                    >
-                        Notificar
-                    </Button>
-                ),
+    const columStyle = {
+        flex: "auto",
+        width: 150,
+    };
+
+    // columnas especiales para usuarios que no son admin
+    const columnasNoAdmin = [
+        {
+            field: "fecha_creacion",
+            headerName: "Fecha de Registro",
+            type: "date",
+            valueGetter: (params) => {
+                if (!params) return null; // si no hay valor, devuelve null
+                const fecha = new Date(params);
+                return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
             },
-            ...columnsPedidos,
-        ]
-        : columnsPedidos;
+            ...columStyle,
+        },
+        {
+            field: "fecha_arribo",
+            headerName: "Fecha de Arribo",
+            type: "date",
+            valueGetter: (params) => {
+                if (!params?.value) return null;
+                const fecha = new Date(params.value);
+                return isNaN(fecha.getTime()) ? null : fecha;
+            },
+            ...columStyle,
+        },
+        {
+            field: "fecha_entrega_transporte",
+            headerName: "Fecha de Entrega Transporte",
+            type: "date",
+            valueGetter: (params) => {
+                if (!params?.value) return null;
+                const fecha = new Date(params.value);
+                return isNaN(fecha.getTime()) ? null : fecha;
+            },
+            ...columStyle,
+        },
+        { field: "proveedor", headerName: "Proveedor", ...columStyle },
+        {
+            field: "numero_contrato",
+            headerName: "Número Contrato",
+            renderCell: (params) => (
+                <Link
+                    to="https://drive.google.com/drive/u/0/folders/1KkHNZXXJpwcvkwJg0SiHFHjn3a7WRM2p"
+                    style={{ color: "#E7423E", textDecoration: "none", fontWeight: "bold" }}
+                >
+                    {params.value}
+                </Link>
+            ),
+            ...columStyle,
+        },
+        { field: "producto", headerName: "Producto", ...columStyle },
+        { field: "bl", headerName: "BL", ...columStyle },
+        { field: "naviera", headerName: "Naviera", ...columStyle },
+        { field: "contenedor", headerName: "Contenedor", ...columStyle },
+        {
+            field: "peso",
+            headerName: "Peso",
+            type: "string",
+            align: "left",
+            headerAlign: "left",
+            ...columStyle,
+        },
+        {
+            field: "dias_libres",
+            headerName: "Días Libres",
+            type: "string",
+            align: "left",
+            headerAlign: "left",
+            ...columStyle,
+        },
+        { field: "observaciones", headerName: "Observaciones", ...columStyle },
+        { field: "entrega_transporte", headerName: "Entrega Transporte", ...columStyle },
+    ];
+
+    // definición final de columnas
+    const columnas =
+        rol === "Administrador"
+            ? [
+                {
+                    field: "notificar",
+                    headerName: "Notificar",
+                    width: 150,
+                    renderCell: (params) => (
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => mostrarPopupNotificacion(params.row)}
+                            sx={{
+                                backgroundColor: "#E7423E",
+                                color: "#fff",
+                                fontSize: "12px",
+                                fontWeight: "bold",
+                                "&:hover": {
+                                    backgroundColor: "#6E81A4",
+                                },
+                            }}
+                        >
+                            Notificar
+                        </Button>
+                    ),
+                },
+                ...columnsPedidos, // columnas normales para admin
+            ]
+            : columnasNoAdmin; // columnas restringidas
 
 
     return (
         <div className="Pedidos">
-            <Backdrop
-                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={loading}
-            >
-                <CircularProgress color="inherit" />
-            </Backdrop>
             <Box m={2} p={isMobile ? 2 : 6}>
                 <Box
                     display="flex"
@@ -251,6 +335,7 @@ const Pedidos = () => {
                     />
                 </Box>
             </Box>
+            <Loading open={loading} />
         </div>
     );
 };
