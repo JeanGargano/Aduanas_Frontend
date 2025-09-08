@@ -26,9 +26,9 @@
   line-height: 24px;
   letter-spacing: 0.3px;
   margin: 24px 0;
-  white-space: normal; /* Asegura saltos de línea naturales */
-  word-wrap: break-word; /* Rompe palabras largas si es necesario */
-  overflow-wrap: break-word; /* Compatibilidad adicional */
+  white-space: normal;
+  overflow-wrap: break-word; /* permite romper incluso cadenas sin espacios */
+  word-break: normal; /* usa break-word si prefieres comportamiento antiguo */
   max-width: 100%;
 }
 
@@ -180,7 +180,7 @@
 
 .toggle-panel {
   position: absolute;
-  width: 50%;
+  width: 45%;
   height: 100%;
   display: flex;
   align-items: center;
