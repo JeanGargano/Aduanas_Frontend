@@ -85,10 +85,4 @@ export const FieldsDataClientes = [
         type: "number",
         gridColumn: gridColumnsSmall,
     },
-    {
-        name: "rol",
-        label: "Rol",
-        type: "text", // o select si tienes valores definidos
-        gridColumn: gridColumnsSmall,
-    },
 ];
