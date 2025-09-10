@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box } from "@mui/material";
+import { Box, MenuItem } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/Header/Header.jsx";
 import { FieldsDataClientes } from "../../Data/DataClientes.jsx";
@@ -8,6 +8,7 @@ import Loading from "../../components/Loading/Loading.jsx";
 import * as yup from "yup";
 import Swal from "sweetalert2";
 import { crearCliente } from "../../Services/usuariosApi.js";
+import CustomTextField from "../../components/CustomTextField/CustomTextField.jsx";
 
 const ClienteNuevo = () => {
     const [loading, setLoading] = useState(false);
@@ -75,9 +76,24 @@ const ClienteNuevo = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 btnText="Crear Cliente"
-                extraFields={null}
                 FieldsData={FieldsDataClientes}
-            />
+                extraFields={({ values, errors, touched, handleChange, handleBlur }) => (
+                    <>
+                        <CustomTextField
+                            name="rol"
+                            label="Rol"
+                            select
+                            value={values.rol}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={touched.rol && Boolean(errors.rol)}
+                            helperText={touched.rol && errors.rol}
+                        >
+                            <MenuItem value="Administrador">Administrador</MenuItem>
+                            <MenuItem value="Cliente">Cliente</MenuItem>
+                        </CustomTextField>
+                    </>
+                )} />
             <Loading open={loading} />
         </Box>
     );

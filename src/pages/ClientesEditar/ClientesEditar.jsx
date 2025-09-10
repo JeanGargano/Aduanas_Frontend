@@ -109,7 +109,7 @@ const ClientesEditar = () => {
     // Asegúrate de generar los valores solo cuando `cliente` ya esté disponible
     const initialValues = {
         ...generarValoresIniciales(cliente),
-        // estado: cliente.estado || "", // <- esto asegura que sí esté
+        rol: cliente.rol || "",
     };
     const validationSchema = generarValidationSchema();
 
