@@ -63,9 +63,13 @@ const ClienteNuevo = () => {
 
     const validationSchema = yup.object(
         FieldsDataClientes.reduce((acc, campo) => {
-            acc[campo.name] = yup.string().required("Este campo es requerido");
+            acc[campo.name] = yup
+                .string()
+                .required(`El campo ${campo.label} es obligatorio`);
             return acc;
-        }, {})
+        }, {
+            rol: yup.string().required("Debe seleccionar un rol"),
+        })
     );
 
     return (

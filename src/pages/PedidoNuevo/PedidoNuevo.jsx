@@ -112,14 +112,38 @@ const PedidoNuevo = () => {
     const initialValues = FieldsData.reduce((acc, campo) => {
         acc[campo.name] = "";
         return acc;
-    }, {});
+    }, {
+        id_cliente: "",
+        estado: "",
+        puerto_arribo: "",
+    });
+
+
+    const camposRequeridos = [
+        "fecha_creacion",
+        "numero_contrato",
+        "producto",
+        "contenedor",
+        "dias_libres",
+    ];
 
     const validationSchema = yup.object(
         FieldsData.reduce((acc, campo) => {
-            acc[campo.name] = yup.string().nullable();
+            if (camposRequeridos.includes(campo.name)) {
+                acc[campo.name] = yup
+                    .string()
+                    .required("Este campo es obligatorio");
+            } else {
+                acc[campo.name] = yup.string().nullable();
+            }
             return acc;
-        }, {})
+        }, {
+            id_cliente: yup.string().required("Debe seleccionar un cliente"),
+            estado: yup.string().required("Debe seleccionar un estado"),
+            puerto_arribo: yup.string().required("Debe seleccionar un puerto"),
+        })
     );
+
 
     return (
         <div className="pedidosNuevo">
@@ -150,7 +174,7 @@ const PedidoNuevo = () => {
                                 name="estado"
                                 label="Estado"
                                 select
-                                value={values.estado}
+                                value={values.estado || ""}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={!!touched.estado && !!errors.estado}
@@ -166,7 +190,7 @@ const PedidoNuevo = () => {
                                 name="puerto_arribo"
                                 label="Puerto"
                                 select
-                                value={values.puerto_arribo}
+                                value={values.puerto_arribo || ""}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 error={!!touched.puerto_arribo && !!errors.puerto_arribo}
