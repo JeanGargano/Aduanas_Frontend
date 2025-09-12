@@ -113,15 +113,12 @@ const MainDash = () => {
             ) : (
                 <Cards resumen={resumen} />
             )}
-            {error ? (
-                <p>Error al cargar pedidos</p>
-            ) : (
-                <Table
-                    rows={ultimosPedidos}
-                    columns={columnas}
-                    title={"Últimos pedidos"}
-                />
-            )}
+            <Table
+                rows={ultimosPedidos}
+                columns={columnas}
+                title={"Últimos pedidos"}
+            />
+
             <Loading open={loading} />
         </div>
     );
