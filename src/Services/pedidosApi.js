@@ -79,8 +79,6 @@ export const actualizarPedidoPorId = async (
   token_type,
   access_token,
 ) => {
-  console.log("Token Type2:", token_type);
-  console.log("Access Token2:", access_token);
   try {
     const response = await fetch(
       `http://localhost:8080/pedido/actualizar_pedido_por_id?id_pedido=${idPedido}`,

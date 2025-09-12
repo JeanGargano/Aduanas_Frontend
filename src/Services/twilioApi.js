@@ -5,10 +5,6 @@ export const enviarMensaje = async (
   token_type,
   access_token,
 ) => {
-  console.log("enviarMensaje - telefono:", telefono);
-  console.log("enviarMensaje - cliente:", cliente);
-  console.log("enviarMensaje - estado:", estado);
-
   const Stelefono = String(telefono);
   try {
     const response = await fetch(
@@ -30,7 +26,6 @@ export const enviarMensaje = async (
       throw new Error("Error al enviar el mensaje");
     }
     const resultado = await response.json();
-    console.log("Mensaje enviado:", resultado);
     return resultado;
   } catch (error) {
     console.error("Error:", error);

@@ -61,9 +61,6 @@ const ClientesEditar = () => {
                 datosLimpios[key] = value === "" ? null : value;
             });
 
-            console.log("Datos limpios:", datosLimpios);
-            console.log("ID del cliente:", id);
-
             await actualizarUsuarioPorId(id, datosLimpios);
 
             Swal.fire({
