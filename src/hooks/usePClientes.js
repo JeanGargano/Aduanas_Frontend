@@ -55,8 +55,6 @@ export const usePClientes = (
           access_token,
         );
 
-        console.log("Pedidos del cliente:", data);
-
         const datosArray = Array.isArray(data) ? data : [];
 
         // Fecha límite (últimos 30 días)

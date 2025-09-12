@@ -24,7 +24,7 @@ const generarValoresIniciales = (pedido) => {
     return valores;
 };
 
-// Validación dinámica (opcional, personaliza según tus necesidades)
+// Validacion dinámica
 const generarValidationSchema = () => {
     const schema = {};
     FieldsData.forEach((campo) => {
@@ -90,12 +90,13 @@ const PedidoEditar = () => {
 
             const nuevoCorreo = {
                 destinatario: usuario[0].correo,
-                asunto: `Cambio de estado a ${datosLimpios.estado}`,
+                asunto: `Estado del pedido`,
                 numero_contrato: datosLimpios.numero_contrato,
                 producto: datosLimpios.producto,
-                contender: datosLimpios.contenedor,
+                contenedor: datosLimpios.contenedor,
                 puerto: datosLimpios.puerto_arribo,
-                dias_libres: `${datosLimpios.dias_libres}`
+                dias_libres: `${datosLimpios.dias_libres}`,
+                estado: datosLimpios.estado,
             };
 
             await crearNotificacion(nuevaNotificacion, token_type, access_token);
@@ -145,10 +146,9 @@ const PedidoEditar = () => {
         return <div>No se pudo cargar el pedido.</div>;
     }
 
-    // Asegúrate de generar los valores solo cuando `pedido` ya esté disponible
     const initialValues = {
         ...generarValoresIniciales(pedido),
-        estado: pedido.estado || "", // <- esto asegura que sí esté
+        estado: pedido.estado || "",
         puerto_arribo: pedido.puerto_arribo || "",
     };
     const validationSchema = generarValidationSchema();

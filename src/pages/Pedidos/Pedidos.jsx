@@ -29,7 +29,6 @@ const Pedidos = () => {
 
     if (loading) return <Loading open={loading} />;
 
-    if (error) return <p>Error al cargar pedidos</p>;
 
     const limpiarCachePedidos = () => {
         if (rol === 'Administrador') {

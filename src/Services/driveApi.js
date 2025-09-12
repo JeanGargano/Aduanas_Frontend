@@ -18,7 +18,6 @@ export const crearCarpetasDrive = async (
     mes,
     carpeta_raiz_id: "1KkHNZXXJpwcvkwJg0SiHFHjn3a7WRM2p",
   };
-  console.log("Datos para crear carpetas en Drive:", datos);
   try {
     const respuesta = await fetch(
       "http://localhost:8080/drive/crear_carpetas_drive",

@@ -17,8 +17,7 @@ const ClienteNuevo = () => {
     const handleSubmit = async (values, actions) => {
         try {
             setLoading(true);
-            const respuesta = await crearCliente(values);
-            console.log("Cliente creado:", respuesta);
+            await crearCliente(values);
             actions.resetForm();
             Swal.fire({
                 title: "Usuario creado",
