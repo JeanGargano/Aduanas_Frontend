@@ -57,9 +57,6 @@ const PedidoNuevo = () => {
             await crearCarpetasDrive(values.numero_contrato, values.id_cliente, token_type, access_token);
             const usuario = await obtenerUsuarioPorId(values.id_cliente);
 
-            console.log("estos son los valores", values);
-            console.log("Usuario encontrado:", usuario);
-
             const nuevaNotificacion = {
                 usuario_id: values.id_cliente,
                 pedido_id: resultado,
