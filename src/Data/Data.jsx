@@ -31,7 +31,7 @@ export const SidebarData = [
   {
     icon: UilChart,
     heading: "Analíticas",
-    link: "/analytics",
+    link: "/analiticas",
     roles: ["Administrador", "Cliente"],
   },
 ];
