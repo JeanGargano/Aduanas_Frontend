@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import Loading from '../../components/Loading/Loading.jsx';
 
 const MainDash = () => {
-    const { rows, resumen, error } = usePedidosRol();
+    const { rows, resumen } = usePedidosRol();
     const { usuario } = useAuth();
     const [loading] = useState(false);
 

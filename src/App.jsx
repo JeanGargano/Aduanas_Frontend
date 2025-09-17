@@ -26,12 +26,12 @@ const Layout = ({ children }) => {
     "/clientes/editar/"
   ];
 
-  const noColumnsRoutes = ["/pedidos", "/pedidos/crear", "/analytics", "/clientes", "/clientes/crear"];
+  const noColumnsRoutes = ["/pedidos", "/pedidos/crear", "/analiticas", "/clientes", "/clientes/crear"];
   const isNoColumnsView =
     noColumnsRoutes.includes(location.pathname) ||
     dynamicRoutePrefixes.some((prefix) => location.pathname.startsWith(prefix));
 
-  const noHiddenOverflowRoutes = ["/pedidos/crear", "/dashboard", "/pedidos", "/clientes", "/analytics"];
+  const noHiddenOverflowRoutes = ["/pedidos/crear", "/dashboard", "/pedidos", "/clientes", "/analiticas"];
   const isNoHiddenOverflow =
     noHiddenOverflowRoutes.includes(location.pathname) ||
     dynamicRoutePrefixes.some((prefix) => location.pathname.startsWith(prefix));
@@ -109,7 +109,7 @@ function App() {
                 <ClientesEditar />
               </Layout>
             } />
-            <Route path="/analytics" element={
+            <Route path="/analiticas" element={
               <Layout>
                 <Analytics />
               </Layout>

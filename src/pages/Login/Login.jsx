@@ -124,7 +124,7 @@ export default function Auth() {
                             value={username}
                             className="noSpinner"
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Identificación"
+                            placeholder="Identificación o NIT"
                         />
                         <button className={`toggleBtn ${active ? "btn-right" : "btn-left"}`} type="submit">Registrar Cuenta</button>
                     </form>
@@ -140,7 +140,7 @@ export default function Auth() {
                             value={username}
                             className="noSpinner"
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Identificación"
+                            placeholder="Identificación o NIT"
                         />
                         <input
                             type="password"

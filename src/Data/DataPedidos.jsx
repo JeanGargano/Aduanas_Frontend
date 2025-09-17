@@ -229,7 +229,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -240,7 +240,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -251,7 +251,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -278,7 +278,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -319,7 +319,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -339,7 +339,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -363,7 +363,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,
@@ -376,7 +376,7 @@ export const columnsPedidos = [
     {
         field: "fecha", headerName: "Fecha", type: "date", valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         }, ...columStyle
     },
@@ -409,7 +409,7 @@ export const columnsPedidos = [
         type: "date",
         valueGetter: (params) => {
             if (!params) return null; // si no hay valor, devuelve null
-            const fecha = new Date(params);
+            const fecha = new Date(params + ' 00:00:00');
             return isNaN(fecha.getTime()) ? null : fecha; // si no es fecha válida, null
         },
         ...columStyle,

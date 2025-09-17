@@ -67,6 +67,9 @@ export const usePedidos = (enable = true, token_type, access_token) => {
         const cantidadEnPuerto = pedidosUltimoMes.filter(
           (pedido) => pedido.estado === "EN PUERTO",
         ).length;
+        const cantidadTotalSinEntregados = pedidosUltimoMes.filter(
+          (pedido) => pedido.estado !== "ENTREGADO",
+        ).length;
 
         // Crear array de últimos 30 días YYYY-MM-DD
         const dias = [];
@@ -98,6 +101,10 @@ export const usePedidos = (enable = true, token_type, access_token) => {
         const seriesEnProceso = contarPorFecha(
           (p) => p.estado === "EN PROCESO",
         );
+        // Serie: todos menos entregados
+        const seriesEnProcesoGeneral = contarPorFecha(
+          (p) => p.estado !== "ENTREGADO",
+        );
         const seriesEnPuerto = contarPorFecha((p) => p.estado === "EN PUERTO");
         const seriesRegistrados = contarPorFecha(
           (p) => p.estado === "REGISTRADO",
@@ -110,11 +117,13 @@ export const usePedidos = (enable = true, token_type, access_token) => {
           cantidadEnProceso,
           cantidadEntregados,
           cantidadEnPuerto,
+          cantidadTotalSinEntregados,
           seriesPedidos,
           seriesEntregados,
           seriesEnProceso,
           seriesEnPuerto,
           seriesRegistrados,
+          seriesEnProcesoGeneral,
         });
 
         // Guardar pedidos con id
@@ -135,12 +144,14 @@ export const usePedidos = (enable = true, token_type, access_token) => {
             cantidadEntregados,
             cantidadEnProceso,
             cantidadEnPuerto,
+            cantidadTotalSinEntregados,
             cantidadRegistrados,
             seriesPedidos,
             seriesEntregados,
             seriesEnProceso,
             seriesEnPuerto,
             seriesRegistrados,
+            seriesEnProcesoGeneral,
           }),
         );
       } catch (error) {

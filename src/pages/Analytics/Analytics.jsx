@@ -7,7 +7,7 @@ import { BarChart, Bar, Tooltip, XAxis, YAxis } from "recharts";
 import { useWindowWidth } from "../../hooks/useWindowWidth";
 import { useAuth } from "../../Context/AuthContext";
 import { useAnalyticsData } from "../../hooks/useDataAnalytics.js";
-import { useUsuarios } from "../../hooks/useUsuarios"; // 👈 nuevo hook
+import { useUsuarios } from "../../hooks/useUsuarios";
 import "./Analytics.css";
 
 const Analytics = () => {
@@ -20,8 +20,11 @@ const Analytics = () => {
         cantidadEntregados,
         cantidadEnProceso,
         getDataByEstado,
-        seriesRegistrados,
+        series,
+        seriesPedidos,
         seriesEntregados,
+        pedidosSinEntregados,
+
     } = useAnalyticsData();
 
     const { resumen, loading: loadingUsuarios } = useUsuarios();
@@ -29,13 +32,20 @@ const Analytics = () => {
     // 🔹 Datos de pedidos por estado
     const data = getDataByEstado("series");
 
-    // 🔹 Fechas para el gráfico lineal
+    // 🔹 Fechas para el gráfico lineal (CORREGIDO)
     const hoy = new Date();
     const dias = [];
     for (let i = 29; i >= 0; i--) {
         const fecha = new Date();
         fecha.setDate(hoy.getDate() - i);
-        dias.push(fecha.toISOString()); // formato ISO
+
+        // Formatear como fecha local sin conversión UTC
+        const year = fecha.getFullYear();
+        const month = String(fecha.getMonth() + 1).padStart(2, '0');
+        const day = String(fecha.getDate()).padStart(2, '0');
+        const fechaLocal = `${year}-${month}-${day}T00:00:00`;
+
+        dias.push(fechaLocal);
     }
 
     const options = {
@@ -59,11 +69,6 @@ const Analytics = () => {
         },
     };
 
-    const series = [
-        { name: "Pedidos En Progreso", data: seriesRegistrados },
-        { name: "Pedidos Completados", data: seriesEntregados },
-    ];
-
     return (
         <div className="analytics">
             <Header title="Analíticas" subtitle="Visión General de las Analíticas" />
@@ -75,7 +80,7 @@ const Analytics = () => {
                         title="Pedidos"
                         counter={cantidadTotalPedidos}
                         fill="#E7423E"
-                        data={getDataByEstado("REGISTRADO")}
+                        data={getDataByEstado("series")}
                     />
                     <BarChartCard
                         title="Pedidos En Proceso"

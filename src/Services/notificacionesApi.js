@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const obtenerFechaLocal = () => {
   const ahora = new Date();
   const año = ahora.getFullYear();
@@ -15,17 +17,14 @@ export const crearNotificacion = async (
   access_token,
 ) => {
   try {
-    const response = await fetch(
-      `http://localhost:8080/notificacion/crear_notificacion`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token_type} ${access_token}`,
-        },
-        body: JSON.stringify(notificacion),
+    const response = await fetch(`${API_URL}/notificacion/crear_notificacion`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token_type} ${access_token}`,
       },
-    );
+      body: JSON.stringify(notificacion),
+    });
 
     if (!response.ok) {
       throw new Error(`Error en la solicitud: ${response.status}`);
@@ -41,7 +40,7 @@ export const crearNotificacion = async (
 export const listarNotificaciones = async (token_type, access_token) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/notificacion/listar_notificaciones`,
+      `${API_URL}/notificacion/listar_notificaciones`,
       {
         method: "GET",
         headers: {
@@ -91,7 +90,7 @@ export const listarMisNotificaciones = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/notificacion/listar_mis_notificaciones?usuario_id=${usuarioId}`,
+      `${API_URL}/notificacion/listar_mis_notificaciones?usuario_id=${usuarioId}`,
       {
         method: "GET",
         headers: {

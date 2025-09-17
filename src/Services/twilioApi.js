@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const enviarMensaje = async (
   telefono,
   cliente,
@@ -7,20 +9,17 @@ export const enviarMensaje = async (
 ) => {
   const Stelefono = String(telefono);
   try {
-    const response = await fetch(
-      "http://localhost:8080/twilio/enviar_mensaje",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token_type} ${access_token}`,
-        },
-        body: JSON.stringify({
-          numero: `+${Stelefono}`,
-          mensaje: `Señor/a ${cliente}, su pedido ha cambiado de estado a: ${estado}.`,
-        }),
+    const response = await fetch(`${API_URL}/twilio/enviar_mensaje`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token_type} ${access_token}`,
       },
-    );
+      body: JSON.stringify({
+        numero: `+${Stelefono}`,
+        mensaje: `Señor/a ${cliente}, su pedido ha cambiado de estado a: ${estado}.`,
+      }),
+    });
 
     if (!response.ok) {
       throw new Error("Error al enviar el mensaje");
