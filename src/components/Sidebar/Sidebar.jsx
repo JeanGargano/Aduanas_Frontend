@@ -1,6 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import React, { useState } from 'react';
-import Logo from '../../assets/logo.png';
+import { useState } from 'react';
 import { SidebarData } from '../../Data/Data';
 import { UilSignOutAlt } from '@iconscout/react-unicons';
 import { useAuth } from "../../Context/AuthContext";
