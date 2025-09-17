@@ -71,11 +71,20 @@ export const usePClientes = (
 
         // Contadores del último mes
         const cantidadTotalPedidos = pedidosUltimoMes.length;
+        const cantidadRegistrados = pedidosUltimoMes.filter(
+          (pedido) => pedido.estado === "REGISTRADO",
+        ).length;
         const cantidadEntregados = pedidosUltimoMes.filter(
           (pedido) => pedido.estado === "ENTREGADO",
         ).length;
         const cantidadEnProceso = pedidosUltimoMes.filter(
           (pedido) => pedido.estado === "EN PROCESO",
+        ).length;
+        const cantidadEnPuerto = pedidosUltimoMes.filter(
+          (pedido) => pedido.estado === "EN PUERTO",
+        ).length;
+        const cantidadTotalSinEntregados = pedidosUltimoMes.filter(
+          (pedido) => pedido.estado !== "ENTREGADO",
         ).length;
 
         // Crear array de últimos 30 días YYYY-MM-DD
@@ -102,22 +111,35 @@ export const usePClientes = (
 
         // Series
         const seriesPedidos = contarPorFecha(() => true);
-
         const seriesEntregados = contarPorFecha(
           (p) => p.estado === "ENTREGADO",
         );
         const seriesEnProceso = contarPorFecha(
           (p) => p.estado === "EN PROCESO",
         );
+        // Serie: todos menos entregados
+        const seriesEnProcesoGeneral = contarPorFecha(
+          (p) => p.estado !== "ENTREGADO",
+        );
+        const seriesEnPuerto = contarPorFecha((p) => p.estado === "EN PUERTO");
+        const seriesRegistrados = contarPorFecha(
+          (p) => p.estado === "REGISTRADO",
+        );
 
         // Resumen
         setResumen({
           cantidadTotalPedidos,
-          cantidadEntregados,
+          cantidadRegistrados,
           cantidadEnProceso,
+          cantidadEntregados,
+          cantidadEnPuerto,
+          cantidadTotalSinEntregados,
           seriesPedidos,
           seriesEntregados,
           seriesEnProceso,
+          seriesEnPuerto,
+          seriesRegistrados,
+          seriesEnProcesoGeneral,
         });
 
         // Guardar pedidos con id
@@ -138,9 +160,15 @@ export const usePClientes = (
               cantidadTotalPedidos,
               cantidadEntregados,
               cantidadEnProceso,
+              cantidadEnPuerto,
+              cantidadTotalSinEntregados,
+              cantidadRegistrados,
               seriesPedidos,
               seriesEntregados,
               seriesEnProceso,
+              seriesEnPuerto,
+              seriesRegistrados,
+              seriesEnProcesoGeneral,
             }),
           );
         }
