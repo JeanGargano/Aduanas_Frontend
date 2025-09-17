@@ -89,6 +89,7 @@ const PedidoEditar = () => {
             };
 
             const nuevoCorreo = {
+                estado: datosLimpios.estado,
                 destinatario: usuario[0].correo,
                 asunto: `Estado del pedido`,
                 numero_contrato: datosLimpios.numero_contrato,
@@ -96,11 +97,11 @@ const PedidoEditar = () => {
                 contenedor: datosLimpios.contenedor,
                 puerto: datosLimpios.puerto_arribo,
                 dias_libres: `${datosLimpios.dias_libres}`,
-                estado: datosLimpios.estado,
+
             };
 
             await crearNotificacion(nuevaNotificacion, token_type, access_token);
-            await crearCorreo(nuevoCorreo);
+            await crearCorreo(nuevoCorreo, token_type, access_token);
 
             Swal.fire({
                 title: "Pedido actualizado",
