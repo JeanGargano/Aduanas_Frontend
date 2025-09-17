@@ -53,9 +53,12 @@ const PedidoNuevo = () => {
     const handleFormSubmit = async (values, actions) => {
         try {
             setLoading(true);
-            const resultado = await crearPedido(values, token_type, access_token);
             await crearCarpetasDrive(values.numero_contrato, values.id_cliente, token_type, access_token);
             const usuario = await obtenerUsuarioPorId(values.id_cliente);
+
+            console.log(values);
+
+            const resultado = await crearPedido(values, token_type, access_token);
 
             const nuevaNotificacion = {
                 usuario_id: values.id_cliente,
@@ -65,7 +68,6 @@ const PedidoNuevo = () => {
             };
 
             await crearNotificacion(nuevaNotificacion, token_type, access_token);
-
 
             actions.resetForm();
 
