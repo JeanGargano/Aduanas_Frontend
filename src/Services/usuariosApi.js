@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:8080/usuario";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const listarUsuarios = async () => {
-  const respuesta = await fetch(`${API_URL}/listar_usuarios`);
+  const respuesta = await fetch(`${API_URL}/usuario/listar_usuarios`);
 
   if (!respuesta.ok) {
     throw new Error("Error al obtener usuarios");
@@ -12,7 +12,7 @@ export const listarUsuarios = async () => {
 };
 
 export const crearCliente = async (datos) => {
-  const respuesta = await fetch(`${API_URL}/crear_usuario`, {
+  const respuesta = await fetch(`${API_URL}/usuario/crear_usuario`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -29,7 +29,7 @@ export const crearCliente = async (datos) => {
 
 export const logearUsuario = async (credenciales) => {
   try {
-    const respuesta = await fetch(`${API_URL}/autenticar_usuario`, {
+    const respuesta = await fetch(`${API_URL}/usuario/autenticar_usuario`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -52,7 +52,7 @@ export const logearUsuario = async (credenciales) => {
 
 export const asignarContrasena = async ({ identificacion, contraseña }) => {
   try {
-    const respuesta = await fetch(`${API_URL}/asignar_contraseña`, {
+    const respuesta = await fetch(`${API_URL}/usuario/asignar_contraseña`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export const asignarContrasena = async ({ identificacion, contraseña }) => {
 export const obtenerUsuarioPorId = async (identificacion) => {
   try {
     const response = await fetch(
-      `${API_URL}/listar_usuario_por_id?identificacion=${identificacion}`,
+      `${API_URL}/usuario/listar_usuario_por_id?identificacion=${identificacion}`,
     );
     if (!response.ok) throw new Error("Error en la respuesta del servidor");
     const data = await response.json();
@@ -90,7 +90,7 @@ export const obtenerUsuarioPorId = async (identificacion) => {
 export const actualizarUsuarioPorId = async (identificacion, datos) => {
   try {
     const response = await fetch(
-      `${API_URL}/actualizar_usuario_por_id?identificacion=${identificacion}`,
+      `${API_URL}/usuario/actualizar_usuario_por_id?identificacion=${identificacion}`,
       {
         method: "PUT",
         headers: {

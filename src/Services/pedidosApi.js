@@ -1,10 +1,12 @@
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const crearPedido = async (values, token_type, access_token) => {
   const cleanData = Object.fromEntries(
     Object.entries(values).filter(([_, value]) => value !== ""),
   );
 
   try {
-    const response = await fetch("http://localhost:8080/pedido/crear_pedido", {
+    const response = await fetch(`${API_URL}/pedido/crear_pedido`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -27,16 +29,13 @@ export const crearPedido = async (values, token_type, access_token) => {
 
 export const listarPedidos = async (token_type, access_token) => {
   try {
-    const response = await fetch(
-      "http://localhost:8080/pedido/listar_pedidos",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token_type} ${access_token}`,
-        },
+    const response = await fetch(`${API_URL}/pedido/listar_pedidos`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token_type} ${access_token}`,
       },
-    );
+    });
 
     if (!response.ok) {
       throw new Error("Error al listar los pedidos");
@@ -53,7 +52,7 @@ export const listarPedidos = async (token_type, access_token) => {
 export const obtenerPedidoPorId = async (id, token_type, access_token) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/pedido/listar_pedido_por_id?id_pedido=${id}`,
+      `${API_URL}/pedido/listar_pedido_por_id?id_pedido=${id}`,
       {
         method: "GET",
         headers: {
@@ -81,7 +80,7 @@ export const actualizarPedidoPorId = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/pedido/actualizar_pedido_por_id?id_pedido=${idPedido}`,
+      `${API_URL}/pedido/actualizar_pedido_por_id?id_pedido=${idPedido}`,
       {
         method: "PUT",
         headers: {
@@ -115,7 +114,7 @@ export const listarPedidosDelCliente = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/pedido/listar_pedidos_del_cliente?id_cliente=${idCliente}`,
+      `${API_URL}/pedido/listar_pedidos_del_cliente?id_cliente=${idCliente}`,
       {
         method: "GET",
         headers: {
@@ -140,7 +139,7 @@ export const listarPedidosDelCliente = async (
 export const actualizarEstadoPedido = async (idPedido, nuevoEstado) => {
   try {
     const response = await fetch(
-      `http://localhost:8080/pedido/actualizar_estado?id_pedido=${idPedido}`,
+      `${API_URL}/pedido/actualizar_estado?id_pedido=${idPedido}`,
       {
         method: "PUT",
         headers: {

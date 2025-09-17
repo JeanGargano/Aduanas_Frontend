@@ -1,5 +1,7 @@
 import { obtenerUsuarioPorId } from "./usuariosApi";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const crearCarpetasDrive = async (
   contrato,
   id,
@@ -19,17 +21,14 @@ export const crearCarpetasDrive = async (
     carpeta_raiz_id: "1KkHNZXXJpwcvkwJg0SiHFHjn3a7WRM2p",
   };
   try {
-    const respuesta = await fetch(
-      "http://localhost:8080/drive/crear_carpetas_drive",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token_type} ${access_token}`,
-        },
-        body: JSON.stringify(datos),
+    const respuesta = await fetch(`${API_URL}/drive/crear_carpetas_drive`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token_type} ${access_token}`,
       },
-    );
+      body: JSON.stringify(datos),
+    });
 
     if (!respuesta.ok) {
       throw new Error("Error al crear carpetas en Drive", Error);
