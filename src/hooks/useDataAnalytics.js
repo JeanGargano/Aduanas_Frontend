@@ -7,12 +7,14 @@ export const useAnalyticsData = () => {
   const cantidadEnProceso = parsed.cantidadEnProceso || 0;
   const cantidadEnPuerto = parsed.cantidadEnPuerto || 0;
   const cantidadRegistrados = parsed.cantidadRegistrados || 0;
+  const cantidadTotalSinEntregados = parsed.cantidadTotalSinEntregados || 0;
 
   const seriesEnPuerto = parsed.seriesEnPuerto || [];
   const seriesPedidos = parsed.seriesPedidos || [];
   const seriesRegistrados = parsed.seriesRegistrados || [];
   const seriesEntregados = parsed.seriesEntregados || [];
   const seriesEnProceso = parsed.seriesEnProceso || [];
+  const seriesEnProcesoGeneral = parsed.seriesEnProcesoGeneral || [];
 
   // Usuarios
   const datosUsuarios = localStorage.getItem("usuarios_resumen");
@@ -53,7 +55,7 @@ export const useAnalyticsData = () => {
   };
 
   const series = [
-    { name: "Pedidos En Progreso", data: seriesEnProceso },
+    { name: "Pedidos En Progreso", data: seriesEnProcesoGeneral },
     { name: "Pedidos Completados", data: seriesEntregados },
   ];
 
@@ -64,6 +66,7 @@ export const useAnalyticsData = () => {
     else if (estado === "ENTREGADOS") series = seriesEntregados;
     else if (estado === "EN PROCESO") series = seriesEnProceso;
     else if (estado === "REGISTRADO") series = seriesRegistrados;
+    else if (estado === "GENERAL") series = seriesEnProcesoGeneral;
     else series = seriesPedidos;
 
     // Formatear días para las barras
@@ -98,5 +101,6 @@ export const useAnalyticsData = () => {
     seriesEnPuerto,
     seriesRegistrados,
     getDataByEstado,
+    cantidadTotalSinEntregados,
   };
 };
