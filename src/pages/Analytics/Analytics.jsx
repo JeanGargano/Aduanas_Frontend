@@ -21,9 +21,6 @@ const Analytics = () => {
         cantidadEnProceso,
         getDataByEstado,
         series,
-        seriesPedidos,
-        seriesEntregados,
-        pedidosSinEntregados,
 
     } = useAnalyticsData();
 
@@ -69,24 +66,36 @@ const Analytics = () => {
         },
     };
 
+    const ticks =
+        Array.from(
+            { length: Math.max(...data.map(d => d.cantidad)) + 1 },
+            (_, i) => i
+        );
+
     return (
         <div className="analytics">
             <Header title="Analíticas" subtitle="Visión General de las Analíticas" />
 
             <div>
                 {/* Tarjetas superiores */}
-                <div className="ChartItems">
+                <div className="DobleCardStart">
                     <BarChartCard
                         title="Pedidos"
                         counter={cantidadTotalPedidos}
                         fill="#E7423E"
-                        data={getDataByEstado("series")}
+                        data={data}
                     />
                     <BarChartCard
                         title="Pedidos En Proceso"
                         counter={cantidadEnProceso}
                         fill="#052462"
                         data={getDataByEstado("EN PROCESO")}
+                    />
+                    <BarChartCard
+                        title="Pedidos Entregados"
+                        counter={cantidadEntregados}
+                        fill="#6E81A4"
+                        data={getDataByEstado("ENTREGADOS")}
                     />
                     <BarChartCard
                         title="Pedidos Entregados"
@@ -118,7 +127,9 @@ const Analytics = () => {
                                 >
                                     <Tooltip />
                                     <XAxis dataKey="name" />
-                                    <YAxis />
+                                    <YAxis
+                                        ticks={ticks}
+                                    />
                                     <Bar dataKey="cantidad_usuarios" fill="#052462" barSize={40} />
                                 </BarChart>
                             </div>
@@ -139,17 +150,19 @@ const Analytics = () => {
                                     dataKey="name"
                                     tick={{ fontSize: 8, angle: -90, textAnchor: "end" }}
                                 />
-                                <YAxis />
+                                <YAxis
+                                    ticks={ticks}
+                                />
                                 <Bar dataKey="cantidad" fill="#E7423E" />
                             </BarChart>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
 
             {/* Loadings */}
-            <Loading open={loading || loadingUsuarios} />
-        </div>
+            < Loading open={loading || loadingUsuarios} />
+        </div >
     );
 };
 
