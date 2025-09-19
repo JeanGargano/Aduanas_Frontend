@@ -84,7 +84,7 @@ const Analytics = () => {
                         title="Pedidos Registrados"
                         counter={cantidadRegistrados}
                         fill="#E7423E"
-                        data={data}
+                        data={getDataByEstado("REGISTRADO")}
                     />
                     <BarChartCard
                         title="Pedidos En Puerto"
