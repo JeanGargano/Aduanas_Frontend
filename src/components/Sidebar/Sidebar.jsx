@@ -26,8 +26,8 @@ const Sidebar = () => {
     }
 
     const rolUsuario = usuario?.usuario?.rol || "";
-    // Determinar cuál está activo basado en la ruta actual
-    const activeIndex = SidebarData.findIndex(item => location.pathname.startsWith(item.link));
+    // Determinar el link activo basado en la ruta actual
+    const activeLink = SidebarData.find(item => location.pathname.startsWith(item.link))?.link;
 
     const handleNavigation = (link) => {
         navigate(link);
@@ -80,7 +80,7 @@ const Sidebar = () => {
                 {/* Menu Items*/}
                 <div className="menu">
                     {SidebarData.filter(item => item.roles.includes(rolUsuario)).map((item, index) => {
-                        const isActive = activeIndex === index;
+                        const isActive = item.link === activeLink;
                         return (
                             <div
                                 key={index}
