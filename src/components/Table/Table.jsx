@@ -3,8 +3,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 
 const Table = ({ rows, columns, title }) => {
-    const rowHeight = 52;      // altura por fila
-    const headerHeight = 56;   // altura del encabezado
+    // const rowHeight = 52;      // altura por fila
+    // const headerHeight = 56;   // altura del encabezado
     const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
     const isMobile = useMediaQuery("(max-width:720px)");
 
@@ -16,9 +16,9 @@ const Table = ({ rows, columns, title }) => {
             <Box
                 m="40px 0 0 0"
                 sx={{
-                    height: rowHeight * paginationModel.pageSize + headerHeight,
-                    minHeight: 450,
-                    maxHeight: 836,
+                    // height: rowHeight * paginationModel.pageSize + headerHeight,
+                    // minHeight: 450,
+                    // maxHeight: 836,
                     maxWidth: mobileWidth,
                     minWidth: mobileWidth,
                     transition: "height 0.3s ease",
