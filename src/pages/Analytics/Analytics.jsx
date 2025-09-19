@@ -16,7 +16,8 @@ const Analytics = () => {
     const width = useWindowWidth();
 
     const {
-        cantidadTotalPedidos,
+        cantidadRegistrados,
+        cantidadEnPuerto,
         cantidadEntregados,
         cantidadEnProceso,
         getDataByEstado,
@@ -80,22 +81,22 @@ const Analytics = () => {
                 {/* Tarjetas superiores */}
                 <div className="DobleCardStart">
                     <BarChartCard
-                        title="Pedidos"
-                        counter={cantidadTotalPedidos}
+                        title="Pedidos Registrados"
+                        counter={cantidadRegistrados}
                         fill="#E7423E"
                         data={data}
                     />
                     <BarChartCard
-                        title="Pedidos En Proceso"
-                        counter={cantidadEnProceso}
+                        title="Pedidos En Puerto"
+                        counter={cantidadEnPuerto}
                         fill="#052462"
-                        data={getDataByEstado("EN PROCESO")}
+                        data={getDataByEstado("EN PUERTO")}
                     />
                     <BarChartCard
-                        title="Pedidos Entregados"
-                        counter={cantidadEntregados}
+                        title="Pedidos En Proceso"
+                        counter={cantidadEnProceso}
                         fill="#6E81A4"
-                        data={getDataByEstado("ENTREGADOS")}
+                        data={getDataByEstado("EN PROCESO")}
                     />
                     <BarChartCard
                         title="Pedidos Entregados"
