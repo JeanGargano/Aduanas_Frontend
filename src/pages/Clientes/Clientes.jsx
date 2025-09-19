@@ -60,7 +60,6 @@ const Clientes = () => {
         }
     };
 
-
     return (
         <div className="Clientes">
             <Box m={2} p={isMobile ? 2 : 6}>
@@ -72,7 +71,6 @@ const Clientes = () => {
                     gap={2}
                 >
                     <Header title="Usuarios" subtitle="Gestión de usuarios registrados" />
-
                     <Button
                         onClick={() => navigate("/clientes/crear")}
                         sx={{
@@ -114,7 +112,6 @@ const Clientes = () => {
                         </Box>
                     </Button>
                 </Box>
-
                 <Box mt="10px">
                     <Button
                         onClick={() => { limpiarCacheUsuarios(); window.location.reload(); }}
@@ -133,7 +130,6 @@ const Clientes = () => {
                     >
                         Refrescar Tabla
                     </Button>
-
                     <div className="table">
                         <Table
                             rows={usuarios}
