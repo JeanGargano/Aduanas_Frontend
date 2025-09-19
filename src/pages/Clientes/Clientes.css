@@ -5,6 +5,7 @@
   gap: 1rem;
   margin-top: 0px;
   overflow: auto;
+  height: fit-content;
 }
 
 .Clientes h1 {
