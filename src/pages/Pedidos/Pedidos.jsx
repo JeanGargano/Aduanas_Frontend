@@ -217,7 +217,6 @@ const Pedidos = () => {
         { field: "observaciones", headerName: "Observaciones", ...columStyle },
         { field: "entrega_transporte", headerName: "Entrega Transporte", ...columStyle },
     ];
-
     // definición final de columnas
     const columnas =
         rol === "Administrador"
@@ -249,7 +248,6 @@ const Pedidos = () => {
             ]
             : columnasNoAdmin; // columnas restringidas
 
-
     return (
         <div className="Pedidos">
             <Box m={2} p={isMobile ? 2 : 6}>
@@ -261,7 +259,6 @@ const Pedidos = () => {
                     gap={2}
                 >
                     <Header title="Pedidos" subtitle="Gestión y seguimiento de pedidos" />
-
                     {rol === "Administrador" && (
                         <>
                             <Button
@@ -284,7 +281,6 @@ const Pedidos = () => {
                                     Crear Pedido
                                 </Box>
                             </Button>
-
                             <Button
                                 onClick={handleEditarPedido}
                                 sx={{
@@ -308,7 +304,6 @@ const Pedidos = () => {
                         </>
                     )}
                 </Box>
-
                 <Box mt="10px">
                     <Button
                         onClick={() => { limpiarCachePedidos(); window.location.reload(); }}
@@ -327,11 +322,13 @@ const Pedidos = () => {
                     >
                         Refrescar Tabla
                     </Button>
-                    <Table
-                        rows={rowsConHandler} // Limitar a 100 filas para evitar problemas de rendimiento
-                        columns={columnas}
-                        loading={loading}
-                    />
+                    <div className="table">
+                        <Table
+                            rows={rowsConHandler} // Limitar a 100 filas para evitar problemas de rendimiento
+                            columns={columnas}
+                            loading={loading}
+                        />
+                    </div>
                 </Box>
             </Box>
             <Loading open={loading} />

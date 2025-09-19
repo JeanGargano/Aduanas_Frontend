@@ -35,6 +35,11 @@
   padding: 8px 18px !important;
 }
 
+.table {
+  width: 100%;
+  margin: 0 auto; /* <- centra horizontalmente */
+}
+
 @media screen and (max-width: 1200px) {
   .Clientes {
     justify-content: center;
@@ -46,7 +51,3 @@
     align-items: center;
   }
 }
-
-/* .table {
-  width: 55%;
-} */

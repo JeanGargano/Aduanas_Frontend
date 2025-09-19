@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 const columStyle = {
-    flex: 1,
-    width: 125,
+    flex: "auto",
+    width: 224,
 };
 // Columns for the usuarios table
 export const columnsUsuarios = [

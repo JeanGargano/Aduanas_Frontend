@@ -3,12 +3,12 @@
   flex-direction: column;
   justify-content: space-evenly;
   overflow: auto;
-  margin-top: 30px;
+  margin-top: 0px;
+  height: fit-content;
 }
 
 .Pedidos h1 {
   color: #052462;
-  overflow: auto;
 }
 
 .swal2-montserrat {
@@ -36,9 +36,7 @@
 
 @media screen and (max-width: 1200px) {
   .Pedidos {
-    justify-content: flex-start;
-    margin-top: 1rem;
-    overflow: auto;
+    justify-content: center;
   }
 }
 
