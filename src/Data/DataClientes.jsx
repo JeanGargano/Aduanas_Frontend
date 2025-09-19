@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const columStyle = {
     flex: "auto",
-    width: 224,
+    width: 260,
 };
 // Columns for the usuarios table
 export const columnsUsuarios = [
