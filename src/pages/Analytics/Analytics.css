@@ -39,6 +39,16 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+.DobleCardStart {
+  display: grid !important;
+  grid-template-columns: 49.5% 49.5%; /* 2 columnas iguales */
+  grid-template-rows: auto auto; /* 2 filas */
+  gap: 10px;
+  margin-left: 1rem;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
 .column {
   display: flex;
   flex-direction: column;
@@ -68,15 +78,31 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+@media screen and (max-width: 1240px) {
+  .ChartItems {
+    width: 90%;
+    flex-direction: column;
+  }
+  .DobleCardStart {
+    grid-template-columns: repeat(2, 1fr); /* aún 2 columnas */
+    gap: 30px;
+    margin: 1rem;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .ChartItems {
     width: 90%;
     flex-direction: column;
   }
-}
-@media screen and (max-width: 1240px) {
-  .ChartItems {
-    width: 90%;
-    flex-direction: column;
+  .DobleCardStart {
+    grid-template-columns: 1fr; /* una sola columna */
+    grid-template-rows: auto; /* filas automáticas */
+    gap: 15px;
+    margin-left: 0.5rem;
+    margin-right: 2rem;
+  }
+  .MiddleTaskChart {
+    width: 87%;
   }
 }

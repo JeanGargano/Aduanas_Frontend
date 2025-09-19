@@ -1,7 +1,10 @@
 import { BarChart, Bar, Tooltip, XAxis } from 'recharts';
+import { useWindowWidth } from "../../hooks/useWindowWidth";
 import './BarChartCard.css';
 
 const BarChartCard = ({ title, counter, fill, data }) => {
+    const width = useWindowWidth();
+
     return (
         <div>
             <div className="ItemContainer">
@@ -12,7 +15,7 @@ const BarChartCard = ({ title, counter, fill, data }) => {
                         <p className="currentMonth1">Mes actual</p>
                     </div>
                     <div className="BarChartContainer">
-                        <BarChart width={260} height={120} data={data}>
+                        <BarChart width={width * 0.3} height={120} data={data}>
                             <XAxis
                                 dataKey="name"
                                 tick={{ fontSize: 8, angle: -90, textAnchor: "end" }}
