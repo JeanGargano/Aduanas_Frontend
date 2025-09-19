@@ -23,16 +23,16 @@ export const SidebarData = [
     roles: ["Administrador", "Cliente"],
   },
   {
-    icon: UilUsersAlt,
-    heading: "Clientes",
-    link: "/clientes",
-    roles: ["Administrador"],
-  },
-  {
     icon: UilChart,
     heading: "Analíticas",
     link: "/analiticas",
     roles: ["Administrador", "Cliente"],
+  },
+  {
+    icon: UilUsersAlt,
+    heading: "Clientes",
+    link: "/clientes",
+    roles: ["Administrador"],
   },
 ];
 
