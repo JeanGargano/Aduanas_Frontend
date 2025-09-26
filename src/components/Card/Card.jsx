@@ -86,7 +86,11 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
 
     const data = {
         options: {
-            chart: { type: "area", height: "auto" },
+            chart: {
+                type: "area", height: "auto", toolbar: {
+                    show: true
+                }
+            },
             dropShadow: { enabled: false },
             fill: { colors: ["#fff"], type: "gradient" },
             dataLabels: { enabled: false },
@@ -96,6 +100,14 @@ function ExpandedCard({ param, setExpanded, layoutId }) {
             xaxis: {
                 type: "datetime",
                 categories: dias,
+                labels: {
+                    style: { colors: "white" }
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: { colors: "white" }
+                }
             },
         },
     };

@@ -12,7 +12,6 @@
   box-shadow: none !important;
 }
 
-/* radial bar */
 .radialBar {
   flex: 1 1;
   display: flex;
@@ -87,6 +86,10 @@
   width: 70%;
 }
 
+.apexcharts-toolbar svg {
+  fill: white !important;
+}
+
 @media screen and (max-width: 1200px) {
   .ExpandedCard {
     top: 20%;
@@ -105,13 +108,3 @@
     justify-content: center;
   }
 }
-
-/* @media screen and (max-width: 1440px) {
-  .ExpandedCard {
-    top: 8rem;
-    height: 50%;
-    left: 25px;
-    width: 80%;
-    justify-content: center;
-  }
-} */
