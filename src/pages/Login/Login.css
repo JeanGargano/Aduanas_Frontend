@@ -27,8 +27,8 @@
   letter-spacing: 0.3px;
   margin: 24px 0;
   white-space: normal;
-  overflow-wrap: break-word; /* permite romper incluso cadenas sin espacios */
-  word-break: normal; /* usa break-word si prefieres comportamiento antiguo */
+  overflow-wrap: break-word;
+  word-break: normal;
   max-width: 100%;
 }
 
@@ -249,5 +249,37 @@
   .container {
     width: 90%;
     min-height: 480px;
+    text-align: left;
+  }
+  .container span {
+    font-size: 14px;
+  }
+  .toggle-panel {
+    width: 20%;
+    padding: 0 55px;
+  }
+  .toggleBtn {
+    padding: 8px 20px;
+    font-size: 12px;
+  }
+  .toggle-left p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    max-width: 1000%;
+  }
+  .toggle-left h1 {
+    font-size: 20px;
+    text-align: left;
+  }
+  .toggle-right p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    max-width: 1000%;
+  }
+  .toggle-right h1 {
+    font-size: 20px;
+    max-width: 50%;
   }
 }
