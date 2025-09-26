@@ -221,29 +221,29 @@ const Pedidos = () => {
     const columnas =
         rol === "Administrador"
             ? [
-                {
-                    field: "notificar",
-                    headerName: "Notificar",
-                    width: 150,
-                    renderCell: (params) => (
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => mostrarPopupNotificacion(params.row)}
-                            sx={{
-                                backgroundColor: "#E7423E",
-                                color: "#fff",
-                                fontSize: "12px",
-                                fontWeight: "bold",
-                                "&:hover": {
-                                    backgroundColor: "#6E81A4",
-                                },
-                            }}
-                        >
-                            Notificar
-                        </Button>
-                    ),
-                },
+                // {
+                //     field: "notificar",
+                //     headerName: "Notificar",
+                //     width: 150,
+                //     renderCell: (params) => (
+                //         <Button
+                //             variant="contained"
+                //             color="secondary"
+                //             onClick={() => mostrarPopupNotificacion(params.row)}
+                //             sx={{
+                //                 backgroundColor: "#E7423E",
+                //                 color: "#fff",
+                //                 fontSize: "12px",
+                //                 fontWeight: "bold",
+                //                 "&:hover": {
+                //                     backgroundColor: "#6E81A4",
+                //                 },
+                //             }}
+                //         >
+                //             Notificar
+                //         </Button>
+                //     ),
+                // },
                 ...columnsPedidos, // columnas normales para admin
             ]
             : columnasNoAdmin; // columnas restringidas
