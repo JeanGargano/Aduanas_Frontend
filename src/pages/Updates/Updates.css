@@ -28,3 +28,9 @@
 .noti > div > span:nth-of-type(2) {
   font-weight: bold;
 }
+
+@media screen and (max-width: 800px) {
+  .Updates {
+    height: 80%;
+  }
+}
